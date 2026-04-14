@@ -15,3 +15,4 @@ timple>=0.1.6
 websockets>=10.3
 fastf1
 fastapi
+uvicorn

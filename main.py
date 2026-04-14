@@ -44,6 +44,55 @@ def get_driver_stats(year: int, event: str, driver: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/drivers/{year}/{event}")
+def get_driver_list(year: int, event: str):
+    try:
+        # 세션 정보 로드 (가벼운 메타데이터만 로드하기 위해 load_laps=False 권장)
+        session = fastf1.get_session(year, event, 'R')
+        session.load(laps=False, telemetry=False, weather=False)
+
+        driver_list = []
+        # session.drivers에는 드라이버 번호(문자열) 리스트가 들어있습니다.
+        for driver_number in session.drivers:
+            # 개별 드라이버의 결과 정보 추출
+            dr_info = session.get_driver(driver_number)
+            driver_list.append({
+                "number": driver_number,
+                "abbreviation": dr_info['Abbreviation'],
+                "full_name": dr_info['FullName'],      
+                "team": dr_info['TeamName'],           
+            })
+
+        return {
+            "year": year,
+            "event": session.event['EventName'],
+            "drivers": driver_list
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/events/{year}")
+def get_event_list(year: int):
+    try:
+        schedule = fastf1.get_event_schedule(year)
+        
+        event_list = []
+        for _, row in schedule.iterrows():
+            event_list.append({
+                "round": row['RoundNumber'],
+                "country": row['Country'],
+                "location": row['Location'],
+                "official_name": row['EventName'] 
+            })
+            
+        return {"year": year, "events": event_list}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
 if __name__ == "__main__":
     import uvicorn
     # 서버 실행: python main.py
