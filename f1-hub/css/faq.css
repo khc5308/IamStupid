@@ -1,0 +1,231 @@
+/* F1 HUB — FAQ Page Styles */
+
+.faq-page {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.page-header {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--text-secondary);
+}
+
+/* Search Bar */
+.search-bar {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 4px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: rgba(225, 6, 0, 0.1);
+}
+
+/* FAQ List */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.faq-header {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.faq-header:hover {
+  background: rgba(225, 6, 0, 0.05);
+}
+
+.faq-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(225, 6, 0, 0.15);
+  color: var(--accent-red);
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.faq-content {
+  flex: 1;
+}
+
+.faq-question {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.faq-category {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.faq-toggle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.faq-item.expanded .faq-toggle {
+  transform: rotate(180deg);
+  color: var(--accent-red);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.faq-item.expanded .faq-answer {
+  display: block;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Empty State */
+.faq-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.faq-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.faq-empty p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .faq-header {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+  }
+
+  .filter-bar {
+    flex-wrap: wrap;
+  }
+}

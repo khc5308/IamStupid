@@ -1,0 +1,294 @@
+/* F1 HUB — Dashboard Styles */
+
+.dashboard {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.page-header {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--text-secondary);
+}
+
+/* Quick Links */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.quick-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.quick-link:hover {
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+  transform: translateY(-3px);
+}
+
+.quick-link-icon {
+  font-size: 2rem;
+}
+
+.quick-link span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-link {
+  color: var(--accent-red);
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.card-link:hover {
+  color: var(--accent-gold);
+}
+
+/* Standings */
+.standings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.standing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.standing-item:hover {
+  background: rgba(225, 6, 0, 0.1);
+}
+
+.standing-pos {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 0.875rem;
+  width: 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.standing-flag {
+  font-size: 1rem;
+  width: 24px;
+}
+
+.standing-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.standing-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.standing-team {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.standing-points {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 0.875rem;
+  color: var(--accent-red);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Events */
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.event-item {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.event-item:hover {
+  background: rgba(225, 6, 0, 0.1);
+}
+
+.event-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: rgba(225, 6, 0, 0.2);
+  color: var(--accent-red);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 2px;
+  margin-bottom: 0.25rem;
+}
+
+.event-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.event-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Season Stats */
+.season-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.stat-item:hover {
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.stat-icon {
+  font-size: 2rem;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent-red);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Standings Card Specific */
+.standings-card {
+  grid-column: span 1;
+}
+
+@media (max-width: 1200px) {
+  .standings-card:nth-child(3) {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .standings-card {
+    grid-column: span 1;
+  }
+}
+
+.events-card {
+  grid-column: span 1;
+}
+
+@media (max-width: 1200px) {
+  .events-card {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .events-card {
+    grid-column: span 1;
+  }
+}

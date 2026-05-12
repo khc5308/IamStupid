@@ -1,0 +1,171 @@
+/* F1 HUB — Events Page Styles */
+
+.events-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.event-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-red);
+  padding: 1.5rem;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.event-card:hover {
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.event-card.severity-high {
+  border-left-color: #e10600;
+}
+
+.event-card.severity-medium {
+  border-left-color: #ff8700;
+}
+
+.event-card.severity-low {
+  border-left-color: #3498db;
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.event-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.event-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(225, 6, 0, 0.15);
+  color: var(--accent-red);
+  font-size: 0.65rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.event-badge.penalty {
+  background: rgba(225, 6, 0, 0.15);
+  color: #e10600;
+}
+
+.event-badge.incident {
+  background: rgba(255, 135, 0, 0.15);
+  color: #ff8700;
+}
+
+.event-badge.safety-car {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+}
+
+.event-badge.red-flag {
+  background: rgba(225, 6, 0, 0.15);
+  color: #e10600;
+}
+
+.event-badge.investigation {
+  background: rgba(52, 152, 219, 0.15);
+  color: #3498db;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.event-race {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.event-driver {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.event-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.event-body {
+  margin-bottom: 1rem;
+}
+
+.event-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.event-outcome {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  background: rgba(225, 6, 0, 0.1);
+  border-left: 2px solid var(--accent-red);
+  border-radius: 2px;
+}
+
+.event-meta {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.event-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Empty State */
+.events-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.events-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.events-empty p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .event-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .event-meta {
+    flex-wrap: wrap;
+  }
+}

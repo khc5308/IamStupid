@@ -1,0 +1,241 @@
+/* F1 HUB — List Pages (Tracks, Drivers, Teams, Machines) */
+
+.list-page {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.page-header {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--text-secondary);
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: rgba(225, 6, 0, 0.1);
+}
+
+/* Search Bar */
+.search-bar {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 4px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--accent-red);
+  background: var(--bg-tertiary);
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  color: var(--accent-red);
+}
+
+.modal-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-field-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.modal-field-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: slideIn 0.3s ease-out;
+}
