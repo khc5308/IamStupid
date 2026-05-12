@@ -439,3 +439,57 @@ nav.scrolled {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-red);
 }
+
+
+/* Footer */
+footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 0 1rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-family: 'Orbitron', monospace;
+}
+
+.footer-section p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+  color: var(--accent-red);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}

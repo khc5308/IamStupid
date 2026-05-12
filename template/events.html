@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>트랙 - F1 HUB</title>
+  <title>이벤트 & 페널티 - IamStupid</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600;700&family=Barlow+Condensed:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/list-page.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/list-page.css">
+  <link rel="stylesheet" href="../css/events.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -18,18 +19,18 @@
       <a href="index.html" class="logo">
         <div class="logo-icon">🏁</div>
         <div class="logo-text">
-          <h1>F1<span style="color: #e10600;">HUB</span></h1>
+          <h1>Iam<span style="color: #e10600;">Stupid</span></h1>
           <div class="subtitle">Formula 1 Information</div>
         </div>
       </a>
       <div class="nav-links">
         <a href="index.html">홈</a>
         <a href="dashboard.html">대시보드</a>
-        <a href="tracks.html" class="active">트랙</a>
+        <a href="tracks.html">트랙</a>
         <a href="drivers.html">드라이버</a>
         <a href="teams.html">팀</a>
         <a href="machines.html">머신</a>
-        <a href="events.html">이벤트</a>
+        <a href="events.html" class="active">이벤트</a>
         <a href="faq.html">FAQ</a>
       </div>
       <button class="nav-cta" onclick="window.location.href='dashboard.html'">LIVE <span>→</span></button>
@@ -39,50 +40,38 @@
 
   <main class="list-page">
     <div class="page-header container">
-      <div class="section-tag">🏁 2025 시즌</div>
-      <h1>레이싱 서킷</h1>
-      <p>2025 Formula 1 시즌의 서킷. 각 트랙의 역사, 기술 데이터, 랩 레코드를 확인하세요.</p>
+      <div class="section-tag">⚠️ 2025 시즌</div>
+      <h1>이벤트 & 페널티</h1>
+      <p>경기 중 발생한 사고, 페널티, 세이프티카, 레드 플래그 등을 추적합니다.</p>
     </div>
 
     <div class="container">
       <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">전체</button>
-        <button class="filter-btn" data-filter="permanent">퍼머넌트</button>
-        <button class="filter-btn" data-filter="street">스트리트</button>
+        <button class="filter-btn" data-filter="penalty">페널티</button>
+        <button class="filter-btn" data-filter="incident">사건</button>
+        <button class="filter-btn" data-filter="safety-car">세이프티카</button>
+        <button class="filter-btn" data-filter="red-flag">레드 플래그</button>
       </div>
 
-      <div id="tracks-grid" class="grid grid-3"></div>
+      <div id="events-timeline" class="events-timeline"></div>
     </div>
   </main>
-
-  <!-- Track Modal -->
-  <div id="track-modal" class="modal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="toggleModal('track-modal', false)">✕</button>
-      <div class="modal-header">
-        <h2 id="modal-track-name"></h2>
-        <p id="modal-track-location" style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;"></p>
-      </div>
-      <div class="modal-body">
-        <div id="modal-track-content"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section"><h4>F1 HUB</h4><p>Formula 1 정보 서비스</p></div>
+        <div class="footer-section"><h4>IamStupid</h4><p>Formula 1 정보 서비스</p></div>
         <div class="footer-section"><h4>페이지</h4><ul><li><a href="dashboard.html">대시보드</a></li><li><a href="tracks.html">트랙</a></li><li><a href="drivers.html">드라이버</a></li><li><a href="teams.html">팀</a></li></ul></div>
         <div class="footer-section"><h4>정보</h4><ul><li><a href="machines.html">머신</a></li><li><a href="events.html">이벤트</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2025 F1 HUB. All rights reserved.</p></div>
+      <div class="footer-bottom"><p>&copy; 2025 IamStupid. All rights reserved.</p></div>
     </div>
   </footer>
 
-  <script src="data/f1-data.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/tracks.js"></script>
+  <script src="../data/f1-data.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/events.js"></script>
 </body>
 </html>
