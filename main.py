@@ -4,6 +4,7 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from typing import Dict, Any
 from DTO import DriverLapStatsResponse, DriverInfo, DriverListResponse, EventInfo,EventListResponse
+import datetime
 
 app = FastAPI()
 
@@ -78,6 +79,33 @@ def get_event_list(year: int):
         return {"year": year, "events": event_list}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# GET | 최신  이벤트
+@app.get("/events/last")
+async def get_latest_event():
+
+    today = datetime.datetime.now()
+    schedule = fastf1.get_event_schedule(today.year)
+    
+    past_events = schedule[schedule['EventDate'] <= today]
+    
+    if past_events.empty:
+        return {"message": "아직 종료된 이벤트가 없습니다."}
+    
+    latest_event = past_events.iloc[-1]
+    
+    return {
+        "event_name": str(latest_event['EventName']),
+        "round_number": int(latest_event['RoundNumber']),
+        "event_date": latest_event['EventDate'].strftime('%Y-%m-%d'),
+        "location": str(latest_event['Location']),
+        "country": str(latest_event['Country']),
+        "event_format": str(latest_event['EventFormat'])
+    }
+ # GET | 드라이버 정보
+@app.get("/drivers/info/all")
+async def get_driver_info():
+    pass
 
 
 
