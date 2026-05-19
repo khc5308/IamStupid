@@ -1,4 +1,6 @@
 import os
+import asyncio
+import requests
 import fastf1
 import pandas as pd
 from fastf1.ergast import Ergast
@@ -78,6 +80,53 @@ def get_driver_stats(year: int, event: str, driver: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+ # GET | 모든 드라이버 정보
+@app.get('/drivers/info/all')
+async def get_all_drivers():
+    with open('all_drivers.txt', 'r', encoding='utf-8') as f:
+        driver_list = [line.strip().lower() for line in f if line.strip()]
+            
+    all_dfs = []
+    offset = 0
+    limit = 100
+    
+    while True:
+        df_page = ergast.get_driver_info(limit=limit, offset=offset)
+        if len(df_page) == 0:
+            break
+        all_dfs.append(df_page)
+        offset += limit
+        
+    import pandas as pd
+    if all_dfs:
+        df = pd.concat(all_dfs, ignore_index=True)
+    else:
+        df = pd.DataFrame()
+        
+    if not df.empty:
+        df['fullName'] = (df['givenName'] + " " + df['familyName']).str.lower()
+
+    driver_info = {}
+    
+    for driver_name in driver_list:
+        matched_row = df[df['fullName'] == driver_name]
+        if not matched_row.empty:
+            info_dict = matched_row.iloc[0].to_dict()
+            
+            for k, v in info_dict.items():
+                if pd.isna(v):
+                    info_dict[k] = "N/A"
+                elif isinstance(v, pd.Timestamp):
+                    info_dict[k] = v.strftime('%Y-%m-%d')
+                    
+            driver_info[driver_name] = info_dict
+            
+            name = f"{info_dict.get('givenName', '')} {info_dict.get('familyName', '')}"
+            driver_number = info_dict.get('number', 'N/A')
+            driver_code = info_dict.get('code', 'N/A')
+            
+    return driver_info
+
 # GET | 특정 이벤트 드라이버 목록
 @app.get("/drivers/{year}/{event}", response_model=DriverListResponse)
 def get_driver_list(year: int, event: str):
@@ -144,46 +193,192 @@ def get_event_list(year: int):
         return {"year": year, "events": event_list}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
- # GET | 드라이버 정보
-@app.get('/drivers/info/all')
-async def get_all_drivers():
-    with open('all_drivers.txt', 'r', encoding='utf-8') as f:
-        driver_list = [line.strip().lower() for line in f if line.strip()]
-            
-    all_dfs = []
-    offset = 0
+
+# 드라이버 현역 수동 데이터 매핑 (월드챔피언, 최고 순위, 그랜드슬램)
+MANUAL_STATS = {
+    "max_verstappen": {"championships": 4, "highest_champ": 1, "grand_slams": 5},
+    "leclerc": {"championships": 0, "highest_champ": 2, "grand_slams": 1},
+    "hamilton": {"championships": 7, "highest_champ": 1, "grand_slams": 6},
+    "norris": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
+    "piastri": {"championships": 0, "highest_champ": 4, "grand_slams": 0},
+    "alonso": {"championships": 2, "highest_champ": 1, "grand_slams": 1},
+    "sainz": {"championships": 0, "highest_champ": 5, "grand_slams": 0},
+    "perez": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
+    "russell": {"championships": 0, "highest_champ": 4, "grand_slams": 0},
+    "gasly": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
+    "stroll": {"championships": 0, "highest_champ": 10, "grand_slams": 0},
+    "tsunoda": {"championships": 0, "highest_champ": 11, "grand_slams": 0},
+    "albon": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
+    "hulkenberg": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
+    "bottas": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
+    "zhou": {"championships": 0, "highest_champ": 18, "grand_slams": 0},
+    "magnussen": {"championships": 0, "highest_champ": 9, "grand_slams": 0},
+    "ricciardo": {"championships": 0, "highest_champ": 3, "grand_slams": 0},
+    "ocon": {"championships": 0, "highest_champ": 8, "grand_slams": 0},
+    "antonelli": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+    "bearman": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+    "colapinto": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+    "doohan": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+    "lawson": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+    "bortoleto": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
+}
+
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+def fetch_ergast_paginated(url: str):
+    all_data = []
     limit = 100
+    offset = 0
+    
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
+    session.mount('https://', HTTPAdapter(max_retries=retries))
     
     while True:
-        df_page = ergast.get_driver_info(limit=limit, offset=offset)
-        if len(df_page) == 0:
+        try:
+            resp = session.get(f"{url}?limit={limit}&offset={offset}", timeout=10)
+            if resp.status_code != 200:
+                break
+            data = resp.json()
+            races = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])
+            if not races:
+                break
+            all_data.extend(races)
+            
+            total = int(data.get("MRData", {}).get("total", 0))
+            offset += limit
+            if offset >= total:
+                break
+        except requests.exceptions.RequestException as e:
+            # 외부 API 장애 시 진행을 중단하고 빈 데이터라도 반환
+            print(f"Jolpi API Error: {e}")
             break
-        all_dfs.append(df_page)
-        offset += limit
-        
-    import pandas as pd
-    if all_dfs:
-        df = pd.concat(all_dfs, ignore_index=True)
-    else:
-        df = pd.DataFrame()
-        
-    if not df.empty:
-        df['fullName'] = (df['givenName'] + " " + df['familyName']).str.lower()
-
-    driver_info = {}
-    
-    for driver_name in driver_list:
-        matched_row = df[df['fullName'] == driver_name]
-        if not matched_row.empty:
-            info_dict = matched_row.iloc[0].to_dict()
-            driver_info[driver_name] = info_dict
             
-            name = f"{info_dict.get('givenName', '')} {info_dict.get('familyName', '')}"
-            driver_number = info_dict.get('number', 'N/A')
-            driver_code = info_dict.get('code', 'N/A')
-            
-    return driver_info
+    return all_data
 
+
+driver_stats_cache = {}
+
+@app.get("/driver-stats/{driver_id}")
+async def get_driver_stats(driver_id: str):
+    if driver_id in driver_stats_cache:
+        return driver_stats_cache[driver_id]
+        
+    try:
+        results = await asyncio.to_thread(fetch_ergast_paginated, f"https://api.jolpi.ca/ergast/f1/drivers/{driver_id}/results.json")
+        sprints = await asyncio.to_thread(fetch_ergast_paginated, f"https://api.jolpi.ca/ergast/f1/drivers/{driver_id}/sprint.json")
+        
+        entries = len(results)
+        wins = 0
+        podiums = 0
+        poles = 0
+        fastest_laps = 0
+        sprint_wins = 0
+        sprint_poles = 0
+        pole_to_win = 0
+        hat_tricks = 0
+        points = 0.0
+        
+        first_race = None
+        first_win = None
+        first_podium = None
+        first_pole = None
+        
+        latest_win = None
+        latest_podium = None
+        latest_pole = None
+        
+        highest_finish = 999
+        highest_grid = 999
+
+        for race in results:
+            race_name = race.get("raceName", "")
+            season = race.get("season", "")
+            race_str = f"{season} {race_name}"
+            
+            if not first_race:
+                first_race = race_str
+                
+            for res in race.get("Results", []):
+                pts = float(res.get("points", 0))
+                points += pts
+                pos = int(res.get("position", 999))
+                grid = int(res.get("grid", 999))
+                
+                # fastest lap
+                fl = res.get("FastestLap", {})
+                fl_rank = fl.get("rank", "")
+                has_fl = (fl_rank == "1")
+                if has_fl:
+                    fastest_laps += 1
+                
+                if pos > 0 and pos < highest_finish: highest_finish = pos
+                if grid > 0 and grid < highest_grid: highest_grid = grid
+                
+                is_win = (pos == 1)
+                is_podium = (pos <= 3 and pos > 0)
+                is_pole = (grid == 1)
+                
+                if is_win:
+                    wins += 1
+                    latest_win = race_str
+                    if not first_win: first_win = race_str
+                if is_podium:
+                    podiums += 1
+                    latest_podium = race_str
+                    if not first_podium: first_podium = race_str
+                if is_pole:
+                    poles += 1
+                    latest_pole = race_str
+                    if not first_pole: first_pole = race_str
+                    
+                if is_pole and is_win:
+                    pole_to_win += 1
+                    if has_fl:
+                        hat_tricks += 1
+
+        for race in sprints:
+            for res in race.get("SprintResults", []):
+                pts = float(res.get("points", 0))
+                points += pts
+                pos = int(res.get("position", 999))
+                grid = int(res.get("grid", 999))
+                
+                if pos == 1: sprint_wins += 1
+                if grid == 1: sprint_poles += 1
+
+        manual = MANUAL_STATS.get(driver_id, {"championships": "N/A", "highest_champ": "N/A", "grand_slams": "N/A"})
+        
+        stats = {
+            "entries": entries,
+            "championships": manual["championships"],
+            "wins": wins,
+            "podiums": podiums,
+            "poles": poles,
+            "fastest_laps": fastest_laps,
+            "sprint_wins": sprint_wins,
+            "sprint_poles": sprint_poles,
+            "pole_to_win": pole_to_win,
+            "hat_tricks": hat_tricks,
+            "grand_slams": manual["grand_slams"],
+            "points": int(points) if points.is_integer() else round(points, 1),
+            "first_race": first_race or "N/A",
+            "first_win": first_win or "N/A",
+            "first_podium": first_podium or "N/A",
+            "first_pole": first_pole or "N/A",
+            "latest_win": latest_win or "N/A",
+            "latest_podium": latest_podium or "N/A",
+            "latest_pole": latest_pole or "N/A",
+            "highest_champ": manual["highest_champ"],
+            "highest_finish": highest_finish if highest_finish != 999 else "N/A",
+            "highest_grid": highest_grid if highest_grid != 999 else "N/A",
+        }
+        
+        driver_stats_cache[driver_id] = stats
+        return stats
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
