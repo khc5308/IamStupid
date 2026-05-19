@@ -171,25 +171,47 @@ async function updateDriverLayout() {
         const participantsRes = await fetch(`/drivers/${year}/${encodeURIComponent(eventName)}`);
         const { drivers: participatingNames } = await participantsRes.json();
 
-        // ALL_DRIVERS (f1-data.js)가 전역에 선언되어 있어야 합니다.
-        const driverInfoPromises = ALL_DRIVERS.map(async (name) => {
-            try {
-                const infoRes = await fetch(`/drivers/info/${encodeURIComponent(name)}`);
-                return infoRes.ok ? await infoRes.json() : null;
-            } catch (err) {
-                return null;
-            }
-        });
-
-        const allInfos = await Promise.all(driverInfoPromises);
+        // /drivers/info/all API를 통해 전체 드라이버 정보를 한 번에 가져옵니다.
+        const allInfoRes = await fetch('/drivers/info/all');
+        if (!allInfoRes.ok) throw new Error('전체 드라이버 정보를 가져오는데 실패했습니다.');
+        const driverInfoMap = await allInfoRes.json();
         
         const activeDrivers = [];
         const inactiveDrivers = [];
 
-        allInfos.forEach(info => {
-            if (!info) return;
-            if (participatingNames.includes(info.name)) {
-                info.is_active = true; // 상태 저장
+        // 반환된 Dictionary 데이터를 순회하며 UI용 데이터 객체로 매핑합니다.
+        Object.keys(driverInfoMap).forEach(key => {
+            const rawInfo = driverInfoMap[key];
+            const driverName = `${rawInfo.givenName || ''} ${rawInfo.familyName || ''}`.trim();
+            
+            // 생년월일을 통한 나이 계산
+            let age = 'N/A';
+            if (rawInfo.dateOfBirth) {
+                const birthYear = new Date(rawInfo.dateOfBirth).getFullYear();
+                age = new Date().getFullYear() - birthYear;
+            }
+            
+            // UI에 맞춘 드라이버 객체 생성
+            const info = {
+                id: rawInfo.driverId,
+                name: driverName,
+                number: rawInfo.number || 'N/A',
+                code: rawInfo.code || 'N/A',
+                nationality: rawInfo.nationality || '',
+                age: age,
+                team: 'Unknown Team', // Ergast 기본 데이터에는 팀이 포함되어 있지 않습니다.
+                points: '-',
+                wins: '-',
+                bio: `국적: ${rawInfo.nationality || 'N/A'} | 출생: ${rawInfo.dateOfBirth || 'N/A'}`
+            };
+
+            // 참여 명단(participatingNames)은 대소문자가 다를 수 있으므로 소문자 변환 후 비교
+            const isParticipating = participatingNames.some(
+                pName => pName.toLowerCase() === driverName.toLowerCase()
+            );
+
+            if (isParticipating) {
+                info.is_active = true;
                 activeDrivers.push(info);
             } else {
                 info.is_active = false;

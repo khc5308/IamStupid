@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>드라이버 - IamStupid</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600;700&family=Barlow+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600;700&family=Barlow+Condensed:wght@400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/list-page.css">
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
     <div class="nav-top-line"></div>
     <div class="nav-content container">
-      <a href="index.html" class="logo">
+      <a href="/" class="logo">
         <div class="logo-icon">🏁</div>
         <div class="logo-text">
           <h1>Iam<span style="color: #e10600;">Stupid</span></h1>
@@ -23,13 +27,13 @@
         </div>
       </a>
       <div class="nav-links">
-        <a href="index.html">홈</a>
-        <a href="dashboard.html">대시보드</a>
-        <a href="tracks.html">트랙</a>
-        <a href="drivers.html" class="active">드라이버</a>
-        <a href="teams.html">팀</a>
-        <a href="events.html">이벤트</a>
-        <a href="faq.html">FAQ</a>
+        <a href="/">홈</a>
+        <a href="/dashboard">대시보드</a>
+        <a href="/tracks">트랙</a>
+        <a href="/drivers" class="active">드라이버</a>
+        <a href="/teams">팀</a>
+        <a href="/events">이벤트</a>
+        <a href="/faq.html">FAQ</a>
       </div>
       <button class="nav-cta" onclick="window.location.href='dashboard.html'">LIVE <span>→</span></button>
       <button class="mobile-menu-btn" onclick="this.nextElementSibling.classList.toggle('mobile-open')">☰</button>
@@ -71,11 +75,31 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section"><h4>IamStupid</h4><p>Formula 1 정보 서비스</p></div>
-        <div class="footer-section"><h4>페이지</h4><ul><li><a href="dashboard.html">대시보드</a></li><li><a href="tracks.html">트랙</a></li><li><a href="drivers.html">드라이버</a></li><li><a href="teams.html">팀</a></li></ul></div>
-        <div class="footer-section"><h4>정보</h4><ul><li><a href="machines.html">머신</a></li><li><a href="events.html">이벤트</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+        <div class="footer-section">
+          <h4>IamStupid</h4>
+          <p>Formula 1 정보 서비스</p>
+        </div>
+        <div class="footer-section">
+          <h4>페이지</h4>
+          <ul>
+            <li><a href="dashboard.html">대시보드</a></li>
+            <li><a href="tracks.html">트랙</a></li>
+            <li><a href="drivers.html">드라이버</a></li>
+            <li><a href="teams.html">팀</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>정보</h4>
+          <ul>
+            <li><a href="machines.html">머신</a></li>
+            <li><a href="events.html">이벤트</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2025 IamStupid. All rights reserved.</p></div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 IamStupid. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 
@@ -83,4 +107,5 @@
   <script src="../js/common.js"></script>
   <script src="../js/drivers.js"></script>
 </body>
+
 </html>
