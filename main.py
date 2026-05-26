@@ -84,6 +84,8 @@ def get_driver_stats(year: int, event: str, driver: str):
         raise HTTPException(status_code=500, detail=str(e))
 
  # GET | 모든 드라이버 정보
+
+# GET | 모든 드라이버 세부 정보
 @app.get('/drivers/info/all')
 async def get_all_drivers():
     with open('./data/all_drivers.txt', 'r', encoding='utf-8') as f:
@@ -226,6 +228,55 @@ def get_event_list(year: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# GET | 특정 연도 드라이버 & 컨스트럭터 챔피언십 스탠딩
+@app.get("/standings/{year}")
+async def get_standings(year: int):
+    try:
+        # Load driver standings
+        ds = await asyncio.to_thread(ergast.get_driver_standings, season=year)
+        driver_list = []
+        if ds.content:
+            df = ds.content[0]
+            for _, row in df.iterrows():
+                c_names = row.get('constructorNames', [])
+                team_name = c_names[0] if c_names else 'N/A'
+                driver_list.append({
+                    "position": int(row['position']),
+                    "points": float(row['points']),
+                    "wins": int(row['wins']),
+                    "driverId": str(row['driverId']),
+                    "givenName": str(row['givenName']),
+                    "familyName": str(row['familyName']),
+                    "driverCode": str(row.get('driverCode', 'N/A')),
+                    "driverNationality": str(row.get('driverNationality', '')),
+                    "team": team_name
+                })
+        
+        # Load constructor standings
+        cs = await asyncio.to_thread(ergast.get_constructor_standings, season=year)
+        constructor_list = []
+        if cs.content:
+            df_c = cs.content[0]
+            for _, row in df_c.iterrows():
+                constructor_list.append({
+                    "position": int(row['position']),
+                    "points": float(row['points']),
+                    "wins": int(row['wins']),
+                    "constructorId": str(row['constructorId']),
+                    "constructorName": str(row['constructorName']),
+                    "constructorNationality": str(row.get('constructorNationality', ''))
+                })
+                
+        return {
+            "year": year,
+            "drivers": driver_list,
+            "constructors": constructor_list
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # 드라이버 현역 수동 데이터 매핑 (월드챔피언, 최고 순위, 그랜드슬램)
 with open('./data/manual_stats.json', 'r', encoding='utf-8') as f:
     MANUAL_STATS = json.load(f)
@@ -265,6 +316,7 @@ def fetch_ergast_paginated(url: str):
 
 driver_stats_cache = {}
 
+# GET | 특정 드라이버 기록
 @app.get("/driver-stats/{driver_id}")
 async def get_driver_stats(driver_id: str):
     if driver_id in driver_stats_cache:

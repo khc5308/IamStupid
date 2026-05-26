@@ -25,6 +25,36 @@ function getTeamColor(teamName = '') {
     return '#707080';
 }
 
+const TEAM_LOGOS = {
+    'mclaren': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/mclaren/2025mclarenlogowhite.webp',
+    'mercedes': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/mercedes/2025mercedeslogowhite.webp',
+    'red-bull': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/redbullracing/2025redbullracinglogowhite.webp',
+    'ferrari': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/ferrari/2025ferrarilogolight.webp',
+    'williams': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/williams/2025williamslogowhite.webp',
+    'racing-bulls': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/racingbulls/2025racingbullslogowhite.webp',
+    'aston-martin': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/astonmartin/2025astonmartinlogowhite.webp',
+    'haas': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/haas/2025haaslogowhite.webp',
+    'audi': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2026/audi/2026audilogowhite.webp',
+    'alpine': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/alpine/2025alpinelogowhite.webp',
+    'cadillac': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2026/cadillac/2026cadillaclogowhite.webp'
+};
+
+function getTeamLogoUrl(teamName = '') {
+    const lower = teamName.toLowerCase();
+    if (lower.includes('red bull') || lower.includes('rbr')) return TEAM_LOGOS['red-bull'];
+    if (lower.includes('ferrari') || lower.includes('scuderia')) return TEAM_LOGOS['ferrari'];
+    if (lower.includes('mclaren')) return TEAM_LOGOS['mclaren'];
+    if (lower.includes('mercedes')) return TEAM_LOGOS['mercedes'];
+    if (lower.includes('aston martin')) return TEAM_LOGOS['aston-martin'];
+    if (lower.includes('alpine')) return TEAM_LOGOS['alpine'];
+    if (lower.includes('williams')) return TEAM_LOGOS['williams'];
+    if (lower.includes('haas')) return TEAM_LOGOS['haas'];
+    if (lower.includes('rb') || lower.includes('racing bulls') || lower.includes('vcarb')) return TEAM_LOGOS['racing-bulls'];
+    if (lower.includes('audi')) return TEAM_LOGOS['audi'];
+    if (lower.includes('cadillac')) return TEAM_LOGOS['cadillac'];
+    return '';
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
     // 1. 초기 데이터 로드 (비동기)
     const data = await updateDriverLayout();
@@ -48,10 +78,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 function renderCard(driver) {
     const teamColor = driver.teamColor || '#707080';
     const isSeatActive = driver.is_active;
-    
+
     // 얼굴 이미지 선택 (없을 경우 fallback 기본 이미지 사용)
     const fallbackImage = 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp';
     const imageUrl = DRIVER_IMAGES[driver.id] || fallbackImage;
+
+    const logoUrl = getTeamLogoUrl(driver.team);
+    const logoImg = logoUrl ? `<img src="${logoUrl}" alt="${driver.team}" style="height: 14px; max-width: 30px; object-fit: contain; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));" />` : '🏎️ ';
 
     return `
         <div class="card" onclick="showDriverModal('${driver.id}')" style="border-top: 4px solid ${teamColor}; relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
@@ -62,8 +95,8 @@ function renderCard(driver) {
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                     <div>
                         <h3 style="font-size: 1.1rem; margin: 0 0 0.25rem 0; font-family: 'Exo 2', sans-serif; font-weight: 700; color: #fff;">${driver.name}</h3>
-                        <p style="font-size: 0.825rem; margin: 0; color: ${isSeatActive ? '#a0a0b0' : '#6c6c7d'}; font-weight: 500;">
-                            ${isSeatActive ? '🏎️ ' + driver.team : '❌ ' + driver.team}
+                        <p style="font-size: 0.825rem; margin: 0; color: ${isSeatActive ? '#a0a0b0' : '#6c6c7d'}; font-weight: 500; display: flex; align-items: center;">
+                            ${isSeatActive ? logoImg + driver.team : '❌ ' + driver.team}
                         </p>
                     </div>
                     <span style="font-family: Orbitron; font-weight: 900; color: ${teamColor}; font-size: 1.35rem; text-shadow: 0 0 10px ${teamColor}20;">
@@ -593,7 +626,7 @@ async function updateDriverLayout() {
         Object.keys(ACTIVE_2026_DRIVERS).forEach(driverId => {
             if (!foundActiveIds.has(driverId)) {
                 const active2026 = ACTIVE_2026_DRIVERS[driverId];
-                
+
                 let driverName = driverId;
                 let nationality = 'Unknown';
                 let dob = 'Unknown';
@@ -619,7 +652,7 @@ async function updateDriverLayout() {
                     }
                 }
                 const flag = NATIONALITY_FLAGS[nationality.toLowerCase()] || '🏁';
-                
+
                 activeDrivers.push({
                     id: driverId,
                     name: driverName,
