@@ -1,8 +1,19 @@
 // F1 HUB — FAQ Page JavaScript
 
+let faqCategories = {};
+let faqs = [];
+
+
 let filteredFaqs = [...faqs];
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+    const res = await fetch('/data/f1-faq.json');
+    const data = await res.json();
+    faqCategories = data.faqCategories || {};
+    faqs = data.faqs || [];
+  } catch (e) { console.error('Failed to load f1-faq', e); }
+
   renderFaqs();
   setupSearch();
   setupFilters();

@@ -239,3 +239,32 @@
 .card {
   animation: slideIn 0.3s ease-out;
 }
+
+/* Seat Badges */
+.seat-badge {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.seat-badge.active-seat {
+  background: rgba(0, 225, 100, 0.1);
+  color: #00e164;
+  border: 1px solid rgba(0, 225, 100, 0.25);
+  box-shadow: 0 0 10px rgba(0, 225, 100, 0.1);
+}
+
+.seat-badge.no-seat {
+  background: rgba(255, 255, 255, 0.04);
+  color: #8c8c9e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card:hover .driver-card-img {
+  transform: scale(1.05);
+}

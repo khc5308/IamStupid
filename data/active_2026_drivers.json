@@ -1,0 +1,112 @@
+{
+  "max_verstappen": {
+    "team": "Red Bull Racing",
+    "number": "1",
+    "code": "VER"
+  },
+  "hadjar": {
+    "team": "Red Bull Racing",
+    "number": "6",
+    "code": "HAD"
+  },
+  "hamilton": {
+    "team": "Scuderia Ferrari",
+    "number": "44",
+    "code": "HAM"
+  },
+  "leclerc": {
+    "team": "Scuderia Ferrari",
+    "number": "16",
+    "code": "LEC"
+  },
+  "norris": {
+    "team": "McLaren",
+    "number": "4",
+    "code": "NOR"
+  },
+  "piastri": {
+    "team": "McLaren",
+    "number": "81",
+    "code": "PIA"
+  },
+  "russell": {
+    "team": "Mercedes",
+    "number": "63",
+    "code": "RUS"
+  },
+  "antonelli": {
+    "team": "Mercedes",
+    "number": "12",
+    "code": "ANT"
+  },
+  "alonso": {
+    "team": "Aston Martin",
+    "number": "14",
+    "code": "ALO"
+  },
+  "stroll": {
+    "team": "Aston Martin",
+    "number": "18",
+    "code": "STR"
+  },
+  "sainz": {
+    "team": "Williams",
+    "number": "55",
+    "code": "SAI"
+  },
+  "albon": {
+    "team": "Williams",
+    "number": "23",
+    "code": "ALB"
+  },
+  "bearman": {
+    "team": "Haas F1 Team",
+    "number": "87",
+    "code": "BEA"
+  },
+  "ocon": {
+    "team": "Haas F1 Team",
+    "number": "31",
+    "code": "OCO"
+  },
+  "bortoleto": {
+    "team": "Audi",
+    "number": "5",
+    "code": "BOR"
+  },
+  "hulkenberg": {
+    "team": "Audi",
+    "number": "27",
+    "code": "HUL"
+  },
+  "colapinto": {
+    "team": "Alpine",
+    "number": "43",
+    "code": "COL"
+  },
+  "gasly": {
+    "team": "Alpine",
+    "number": "10",
+    "code": "GAS"
+  },
+  "lawson": {
+    "team": "Racing Bulls",
+    "number": "30",
+    "code": "LAW"
+  },
+  "lindblad": {
+    "team": "Racing Bulls",
+    "number": "17",
+    "code": "LIN"
+  },
+  "perez": {
+    "team": "Cadillac",
+    "number": "11",
+    "code": "PER"
+  },
+  "bottas": {
+    "team": "Cadillac",
+    "number": "77",
+    "code": "BOT"
+  }
+}

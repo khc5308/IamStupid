@@ -1,0 +1,427 @@
+{
+  "ALL_DRIVERS": [
+    "Max Verstappen",
+    "Charles Leclerc",
+    "Lewis Hamilton",
+    "Lando Norris",
+    "Oscar Piastri",
+    "Fernando Alonso"
+  ],
+  "teams": [
+    {
+      "id": "red-bull",
+      "name": "Red Bull Racing",
+      "shortName": "RBR",
+      "color": "#0600ef",
+      "points": 710,
+      "wins": 23,
+      "championships": 4,
+      "drivers": [
+        "max-verstappen",
+        "sergio-perez"
+      ],
+      "base": "Milton Keynes, UK",
+      "teamPrincipal": "Christian Horner",
+      "founded": 2005,
+      "engine": "Honda RBPT",
+      "bio": "F1의 지배자. 최근 4년간 월드 챔피언을 배출한 최강의 팀."
+    },
+    {
+      "id": "mclaren",
+      "name": "McLaren Racing",
+      "shortName": "MCL",
+      "color": "#ff8700",
+      "points": 650,
+      "wins": 11,
+      "championships": 8,
+      "drivers": [
+        "lando-norris",
+        "oscar-piastri"
+      ],
+      "base": "Woking, UK",
+      "teamPrincipal": "Zak Brown",
+      "founded": 1963,
+      "engine": "Mercedes",
+      "bio": "전설적인 팀. 최근 부활하며 다시 경쟁력을 갖추고 있는 중."
+    },
+    {
+      "id": "ferrari",
+      "name": "Scuderia Ferrari",
+      "shortName": "FER",
+      "color": "#dc0000",
+      "points": 630,
+      "wins": 15,
+      "championships": 16,
+      "drivers": [
+        "lewis-hamilton",
+        "charles-leclerc",
+        "carlos-sainz"
+      ],
+      "base": "Maranello, Italy",
+      "teamPrincipal": "Frédéric Vasseur",
+      "founded": 1929,
+      "engine": "Ferrari",
+      "bio": "F1의 전설. 가장 오래되고 영광스러운 팀. 2025년 Hamilton 영입으로 주목."
+    },
+    {
+      "id": "mercedes",
+      "name": "Mercedes-AMG Petronas",
+      "shortName": "MER",
+      "color": "#00d4be",
+      "points": 520,
+      "wins": 8,
+      "championships": 8,
+      "drivers": [
+        "george-russell",
+        "andrea-kimi-antonelli"
+      ],
+      "base": "Brackley, UK",
+      "teamPrincipal": "Toto Wolff",
+      "founded": 1954,
+      "engine": "Mercedes",
+      "bio": "최근 우위를 잃었지만 여전히 강력한 팀. 2026년 규정 변경에 주목."
+    },
+    {
+      "id": "aston-martin",
+      "name": "Aston Martin F1",
+      "shortName": "AMR",
+      "color": "#006f62",
+      "points": 380,
+      "wins": 0,
+      "championships": 0,
+      "drivers": [
+        "fernando-alonso",
+        "lance-stroll"
+      ],
+      "base": "Silverstone, UK",
+      "teamPrincipal": "Mike Krack",
+      "founded": 2018,
+      "engine": "Mercedes",
+      "bio": "신흥 강자. Lawrence Stroll의 투자로 빠르게 성장 중인 팀."
+    },
+    {
+      "id": "alpine",
+      "name": "Alpine F1 Team",
+      "shortName": "ALP",
+      "color": "#0082fa",
+      "points": 280,
+      "wins": 0,
+      "championships": 0,
+      "drivers": [
+        "esteban-ocon",
+        "pierre-gasly"
+      ],
+      "base": "Enstone, UK",
+      "teamPrincipal": "Bruno Famin",
+      "founded": 2021,
+      "engine": "Renault",
+      "bio": "Renault의 후속 팀. 중위권 팀으로 안정적인 성적 유지 중."
+    }
+  ],
+  "tracks": [
+    {
+      "id": "bahrain",
+      "round": 1,
+      "name": "Bahrain International Circuit",
+      "country": "바레인",
+      "city": "Sakhir",
+      "flag": "🇧🇭",
+      "date": "2025-03-16",
+      "type": "permanent",
+      "length": 5.412,
+      "laps": 57,
+      "turns": 15,
+      "drsZones": 2,
+      "firstGP": 2004,
+      "lapRecord": "1:31.447",
+      "lapRecordHolder": "Lewis Hamilton",
+      "lapRecordYear": 2020,
+      "description": "사막의 보석. 높은 온도와 모래 바람이 특징인 서킷. 다운포스 설정이 중요."
+    },
+    {
+      "id": "saudi-arabia",
+      "round": 2,
+      "name": "Jeddah Corniche Circuit",
+      "country": "사우디아라비아",
+      "city": "Jeddah",
+      "flag": "🇸🇦",
+      "date": "2025-04-06",
+      "type": "street",
+      "length": 6.174,
+      "laps": 50,
+      "turns": 27,
+      "drsZones": 2,
+      "firstGP": 2021,
+      "lapRecord": "1:27.511",
+      "lapRecordHolder": "Charles Leclerc",
+      "lapRecordYear": 2022,
+      "description": "세계에서 가장 빠른 스트리트 서킷. 높은 속도와 위험한 벽이 특징."
+    },
+    {
+      "id": "australia",
+      "round": 3,
+      "name": "Albert Park Circuit",
+      "country": "호주",
+      "city": "Melbourne",
+      "flag": "🇦🇺",
+      "date": "2025-04-13",
+      "type": "street",
+      "length": 5.303,
+      "laps": 58,
+      "turns": 16,
+      "drsZones": 2,
+      "firstGP": 1996,
+      "lapRecord": "1:24.125",
+      "lapRecordHolder": "Charles Leclerc",
+      "lapRecordYear": 2022,
+      "description": "호주의 가장 큰 도시 중심에 위치한 스트리트 서킷. 아름다운 경치와 함께."
+    },
+    {
+      "id": "japan",
+      "round": 4,
+      "name": "Suzuka Circuit",
+      "country": "일본",
+      "city": "Suzuka",
+      "flag": "🇯🇵",
+      "date": "2025-05-04",
+      "type": "permanent",
+      "length": 5.807,
+      "laps": 53,
+      "turns": 18,
+      "drsZones": 1,
+      "firstGP": 1976,
+      "lapRecord": "1:30.983",
+      "lapRecordHolder": "Max Verstappen",
+      "lapRecordYear": 2023,
+      "description": "전설의 서킷. 높은 속도와 기술적 난이도로 유명. 팬들의 열정이 대단함."
+    },
+    {
+      "id": "china",
+      "round": 5,
+      "name": "Shanghai International Circuit",
+      "country": "중국",
+      "city": "Shanghai",
+      "flag": "🇨🇳",
+      "date": "2025-05-18",
+      "type": "permanent",
+      "length": 5.451,
+      "laps": 56,
+      "turns": 16,
+      "drsZones": 2,
+      "firstGP": 2004,
+      "lapRecord": "1:32.438",
+      "lapRecordHolder": "Lewis Hamilton",
+      "lapRecordYear": 2018,
+      "description": "현대적인 시설의 서킷. 긴 직선과 기술적 코너의 조합."
+    }
+  ],
+  "machines": [
+    {
+      "id": "rbr-2025",
+      "name": "RB21",
+      "year": 2025,
+      "teamId": "red-bull",
+      "powerUnit": "Honda RBPT",
+      "weight": 798,
+      "description": "Red Bull Racing의 2025년 머신. 최고의 성능을 자랑하는 차량.",
+      "specs": [
+        {
+          "label": "엔진",
+          "value": "Honda RBPT 1.6L V6 터보"
+        },
+        {
+          "label": "최고 회전수",
+          "value": "15,000 RPM"
+        },
+        {
+          "label": "최고 출력",
+          "value": "약 1000 HP"
+        },
+        {
+          "label": "최소 무게",
+          "value": "798 kg"
+        },
+        {
+          "label": "연료 용량",
+          "value": "150 kg"
+        },
+        {
+          "label": "타이어",
+          "value": "Pirelli"
+        }
+      ]
+    },
+    {
+      "id": "mcl-2025",
+      "name": "MCL38",
+      "year": 2025,
+      "teamId": "mclaren",
+      "powerUnit": "Mercedes",
+      "weight": 798,
+      "description": "McLaren의 2025년 머신. 최근 부활을 이끌고 있는 차량.",
+      "specs": [
+        {
+          "label": "엔진",
+          "value": "Mercedes 1.6L V6 터보"
+        },
+        {
+          "label": "최고 회전수",
+          "value": "15,000 RPM"
+        },
+        {
+          "label": "최고 출력",
+          "value": "약 1000 HP"
+        },
+        {
+          "label": "최소 무게",
+          "value": "798 kg"
+        },
+        {
+          "label": "연료 용량",
+          "value": "150 kg"
+        },
+        {
+          "label": "타이어",
+          "value": "Pirelli"
+        }
+      ]
+    },
+    {
+      "id": "fer-2025",
+      "name": "SF-25",
+      "year": 2025,
+      "teamId": "ferrari",
+      "powerUnit": "Ferrari",
+      "weight": 798,
+      "description": "Ferrari의 2025년 머신. Hamilton 영입으로 기대가 높은 차량.",
+      "specs": [
+        {
+          "label": "엔진",
+          "value": "Ferrari 1.6L V6 터보"
+        },
+        {
+          "label": "최고 회전수",
+          "value": "15,000 RPM"
+        },
+        {
+          "label": "최고 출력",
+          "value": "약 1000 HP"
+        },
+        {
+          "label": "최소 무게",
+          "value": "798 kg"
+        },
+        {
+          "label": "연료 용량",
+          "value": "150 kg"
+        },
+        {
+          "label": "타이어",
+          "value": "Pirelli"
+        }
+      ]
+    },
+    {
+      "id": "mer-2025",
+      "name": "W16",
+      "year": 2025,
+      "teamId": "mercedes",
+      "powerUnit": "Mercedes",
+      "weight": 798,
+      "description": "Mercedes의 2025년 머신. 새로운 규정에 적응 중인 차량.",
+      "specs": [
+        {
+          "label": "엔진",
+          "value": "Mercedes 1.6L V6 터보"
+        },
+        {
+          "label": "최고 회전수",
+          "value": "15,000 RPM"
+        },
+        {
+          "label": "최고 출력",
+          "value": "약 1000 HP"
+        },
+        {
+          "label": "최소 무게",
+          "value": "798 kg"
+        },
+        {
+          "label": "연료 용량",
+          "value": "150 kg"
+        },
+        {
+          "label": "타이어",
+          "value": "Pirelli"
+        }
+      ]
+    }
+  ],
+  "raceEvents": [
+    {
+      "id": "event-001",
+      "round": 1,
+      "race": "Bahrain Grand Prix",
+      "type": "penalty",
+      "severity": "high",
+      "driver": "George Russell",
+      "team": "Mercedes",
+      "lap": 32,
+      "date": "2025-03-16",
+      "description": "트랙 리밋 반복 위반",
+      "outcome": "5초 타임 페널티 부과"
+    },
+    {
+      "id": "event-002",
+      "round": 1,
+      "race": "Bahrain Grand Prix",
+      "type": "incident",
+      "severity": "medium",
+      "driver": "Oscar Piastri",
+      "team": "McLaren",
+      "lap": 45,
+      "date": "2025-03-16",
+      "description": "Carlos Sainz와 접촉",
+      "outcome": "레이싱 인시던트로 판정, 페널티 없음"
+    },
+    {
+      "id": "event-003",
+      "round": 2,
+      "race": "Saudi Arabia Grand Prix",
+      "type": "safety-car",
+      "severity": "medium",
+      "driver": null,
+      "team": null,
+      "lap": 28,
+      "date": "2025-04-06",
+      "description": "드라이버 사고로 인한 세이프티카 배치",
+      "outcome": "5랩 동안 세이프티카 운영"
+    },
+    {
+      "id": "event-004",
+      "round": 3,
+      "race": "Australian Grand Prix",
+      "type": "penalty",
+      "severity": "high",
+      "driver": "Fernando Alonso",
+      "team": "Aston Martin",
+      "lap": 15,
+      "date": "2025-04-13",
+      "description": "불공정한 방어 - 드라이버 간 접촉 야기",
+      "outcome": "드라이브 스루 페널티"
+    },
+    {
+      "id": "event-005",
+      "round": 4,
+      "race": "Japanese Grand Prix",
+      "type": "red-flag",
+      "severity": "high",
+      "driver": null,
+      "team": null,
+      "lap": 38,
+      "date": "2025-05-04",
+      "description": "폭우로 인한 경기 중단",
+      "outcome": "30분 경기 중단 후 재개"
+    }
+  ]
+}

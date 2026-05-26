@@ -1,0 +1,127 @@
+{
+  "max_verstappen": {
+    "championships": 4,
+    "highest_champ": 1,
+    "grand_slams": 5
+  },
+  "leclerc": {
+    "championships": 0,
+    "highest_champ": 2,
+    "grand_slams": 1
+  },
+  "hamilton": {
+    "championships": 7,
+    "highest_champ": 1,
+    "grand_slams": 6
+  },
+  "norris": {
+    "championships": 0,
+    "highest_champ": 2,
+    "grand_slams": 0
+  },
+  "piastri": {
+    "championships": 0,
+    "highest_champ": 4,
+    "grand_slams": 0
+  },
+  "alonso": {
+    "championships": 2,
+    "highest_champ": 1,
+    "grand_slams": 1
+  },
+  "sainz": {
+    "championships": 0,
+    "highest_champ": 5,
+    "grand_slams": 0
+  },
+  "perez": {
+    "championships": 0,
+    "highest_champ": 2,
+    "grand_slams": 0
+  },
+  "russell": {
+    "championships": 0,
+    "highest_champ": 4,
+    "grand_slams": 0
+  },
+  "gasly": {
+    "championships": 0,
+    "highest_champ": 7,
+    "grand_slams": 0
+  },
+  "stroll": {
+    "championships": 0,
+    "highest_champ": 10,
+    "grand_slams": 0
+  },
+  "tsunoda": {
+    "championships": 0,
+    "highest_champ": 11,
+    "grand_slams": 0
+  },
+  "albon": {
+    "championships": 0,
+    "highest_champ": 7,
+    "grand_slams": 0
+  },
+  "hulkenberg": {
+    "championships": 0,
+    "highest_champ": 7,
+    "grand_slams": 0
+  },
+  "bottas": {
+    "championships": 0,
+    "highest_champ": 2,
+    "grand_slams": 0
+  },
+  "zhou": {
+    "championships": 0,
+    "highest_champ": 18,
+    "grand_slams": 0
+  },
+  "magnussen": {
+    "championships": 0,
+    "highest_champ": 9,
+    "grand_slams": 0
+  },
+  "ricciardo": {
+    "championships": 0,
+    "highest_champ": 3,
+    "grand_slams": 0
+  },
+  "ocon": {
+    "championships": 0,
+    "highest_champ": 8,
+    "grand_slams": 0
+  },
+  "antonelli": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  },
+  "bearman": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  },
+  "colapinto": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  },
+  "doohan": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  },
+  "lawson": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  },
+  "bortoleto": {
+    "championships": 0,
+    "highest_champ": "N/A",
+    "grand_slams": 0
+  }
+}

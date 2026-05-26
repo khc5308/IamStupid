@@ -1,6 +1,9 @@
 import os
+import json
 import asyncio
 import requests
+from urllib3.util import Retry
+from requests.adapters import HTTPAdapter
 import fastf1
 import pandas as pd
 from fastf1.ergast import Ergast
@@ -83,7 +86,7 @@ def get_driver_stats(year: int, event: str, driver: str):
  # GET | 모든 드라이버 정보
 @app.get('/drivers/info/all')
 async def get_all_drivers():
-    with open('all_drivers.txt', 'r', encoding='utf-8') as f:
+    with open('./data/all_drivers.txt', 'r', encoding='utf-8') as f:
         driver_list = [line.strip().lower() for line in f if line.strip()]
             
     all_dfs = []
@@ -144,6 +147,35 @@ def get_driver_list(year: int, event: str):
                 "team": dr_info['TeamName'],
             })
 
+        # 미래 연도(예: 2026년) 등으로 인해 드라이버 목록이 비어있을 경우,
+        # 실데이터가 존재하는 2024년 시즌의 동일 이벤트 또는 바레인 GP로 대체 로드
+        if len(driver_list) == 0:
+            try:
+                fallback_session = fastf1.get_session(2024, event, 'R')
+                fallback_session.load(laps=False, telemetry=False, weather=False)
+                for i in fallback_session.drivers:
+                    dr_info = fallback_session.get_driver(i)
+                    driver_list.append({
+                        "number": i,
+                        "abbreviation": dr_info['Abbreviation'],
+                        "full_name": dr_info['FullName'],
+                        "team": dr_info['TeamName'],
+                    })
+            except Exception:
+                try:
+                    fallback_session = fastf1.get_session(2024, 'Bahrain Grand Prix', 'R')
+                    fallback_session.load(laps=False, telemetry=False, weather=False)
+                    for i in fallback_session.drivers:
+                        dr_info = fallback_session.get_driver(i)
+                        driver_list.append({
+                            "number": i,
+                            "abbreviation": dr_info['Abbreviation'],
+                            "full_name": dr_info['FullName'],
+                            "team": dr_info['TeamName'],
+                        })
+                except Exception:
+                    pass
+
         return {
             "year": year,
             "event": session.event['EventName'],
@@ -195,36 +227,9 @@ def get_event_list(year: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 # 드라이버 현역 수동 데이터 매핑 (월드챔피언, 최고 순위, 그랜드슬램)
-MANUAL_STATS = {
-    "max_verstappen": {"championships": 4, "highest_champ": 1, "grand_slams": 5},
-    "leclerc": {"championships": 0, "highest_champ": 2, "grand_slams": 1},
-    "hamilton": {"championships": 7, "highest_champ": 1, "grand_slams": 6},
-    "norris": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
-    "piastri": {"championships": 0, "highest_champ": 4, "grand_slams": 0},
-    "alonso": {"championships": 2, "highest_champ": 1, "grand_slams": 1},
-    "sainz": {"championships": 0, "highest_champ": 5, "grand_slams": 0},
-    "perez": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
-    "russell": {"championships": 0, "highest_champ": 4, "grand_slams": 0},
-    "gasly": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
-    "stroll": {"championships": 0, "highest_champ": 10, "grand_slams": 0},
-    "tsunoda": {"championships": 0, "highest_champ": 11, "grand_slams": 0},
-    "albon": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
-    "hulkenberg": {"championships": 0, "highest_champ": 7, "grand_slams": 0},
-    "bottas": {"championships": 0, "highest_champ": 2, "grand_slams": 0},
-    "zhou": {"championships": 0, "highest_champ": 18, "grand_slams": 0},
-    "magnussen": {"championships": 0, "highest_champ": 9, "grand_slams": 0},
-    "ricciardo": {"championships": 0, "highest_champ": 3, "grand_slams": 0},
-    "ocon": {"championships": 0, "highest_champ": 8, "grand_slams": 0},
-    "antonelli": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-    "bearman": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-    "colapinto": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-    "doohan": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-    "lawson": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-    "bortoleto": {"championships": 0, "highest_champ": "N/A", "grand_slams": 0},
-}
+with open('./data/manual_stats.json', 'r', encoding='utf-8') as f:
+    MANUAL_STATS = json.load(f)
 
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 def fetch_ergast_paginated(url: str):
     all_data = []

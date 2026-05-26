@@ -1,6 +1,24 @@
 // F1 HUB — Machines Page JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
+let teams = [];
+let tracks = [];
+let machines = [];
+let raceEvents = [];
+let ALL_DRIVERS = [];
+let drivers = [];
+
+
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+    const res = await fetch('/data/f1-data.json');
+    const data = await res.json();
+    teams = data.teams || [];
+    tracks = data.tracks || [];
+    machines = data.machines || [];
+    raceEvents = data.raceEvents || [];
+    ALL_DRIVERS = data.ALL_DRIVERS || [];
+  } catch (e) { console.error('Failed to load f1-data', e); }
+
   renderMachines();
   setupModalClose('machine-modal');
 });

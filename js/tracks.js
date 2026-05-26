@@ -1,8 +1,26 @@
 // F1 HUB — Tracks Page JavaScript
 
+let teams = [];
+let tracks = [];
+let machines = [];
+let raceEvents = [];
+let ALL_DRIVERS = [];
+let drivers = [];
+
+
 let filteredTracks = [...tracks];
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+    const res = await fetch('/data/f1-data.json');
+    const data = await res.json();
+    teams = data.teams || [];
+    tracks = data.tracks || [];
+    machines = data.machines || [];
+    raceEvents = data.raceEvents || [];
+    ALL_DRIVERS = data.ALL_DRIVERS || [];
+  } catch (e) { console.error('Failed to load f1-data', e); }
+
   renderTracks();
   setupFilters();
   setupModalClose('track-modal');
