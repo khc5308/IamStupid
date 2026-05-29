@@ -1,5 +1,50 @@
 // F1 HUB — Dashboard JavaScript
 
+const NATIONALITY_FLAGS = {
+  // Countries
+  'bahrain': '🇧🇭',
+  'saudi arabia': '🇸🇦',
+  'australia': '🇦🇺',
+  'japan': '🇯🇵',
+  'china': '🇨🇳',
+  'usa': '🇺🇸',
+  'italy': '🇮🇹',
+  'monaco': '🇲🇨',
+  'canada': '🇨🇦',
+  'spain': '🇪🇸',
+  'austria': '🇦🇹',
+  'united kingdom': '🇬🇧',
+  'great britain': '🇬🇧',
+  'hungary': '🇭🇺',
+  'belgium': '🇧🇪',
+  'netherlands': '🇳🇱',
+  'azerbaijan': '🇦🇿',
+  'singapore': '🇸🇬',
+  'mexico': '🇲🇽',
+  'brazil': '🇧🇷',
+  'qatar': '🇶🇦',
+  'uae': '🇦🇪',
+  
+  // Nationalities
+  'british': '🇬🇧',
+  'monegasque': '🇲🇨',
+  'australian': '🇦🇺',
+  'spanish': '🇪🇸',
+  'dutch': '🇳🇱',
+  'french': '🇫🇷',
+  'german': '🇩🇪',
+  'canadian': '🇨🇦',
+  'japanese': '🇯🇵',
+  'finnish': '🇫🇮',
+  'mexican': '🇲🇽',
+  'danish': '🇩🇰',
+  'chinese': '🇨🇳',
+  'thai': '🇹🇭',
+  'new zealander': '🇳🇿',
+  'argentine': '🇦🇷',
+  'american': '🇺🇸'
+};
+
 let teams = [];
 let tracks = [];
 let machines = [];
@@ -83,24 +128,60 @@ async function loadDashboardData() {
     teams = f1Data.teams || [];
     tracks = f1Data.tracks || [];
     machines = f1Data.machines || [];
-    raceEvents = f1Data.raceEvents || [];
     ALL_DRIVERS = f1Data.ALL_DRIVERS || [];
 
-    // 2. Fetch flags and images
-    const [flagsRes, imagesRes, standingsRes] = await Promise.all([
-      fetch('/data/nationality_flags.json'),
-      fetch('/data/driver_images.json'),
-      fetch('/standings/2026')
-    ]);
-    const nationalityFlags = await flagsRes.json();
-    const driverImages = await imagesRes.json();
-    const standingsData = await standingsRes.json();
+    // 2. Fetch Grand Prix schedule events dynamically
+    try {
+      const currentYear = new Date().getFullYear();
+      const gpRes = await fetch(`/events/${currentYear}`);
+      if (gpRes.ok) {
+        const gpData = await gpRes.json();
+        raceEvents = gpData.events || [];
+      }
+    } catch (gpErr) {
+      console.error('Failed to fetch Grand Prix events', gpErr);
+      raceEvents = [];
+    }
+
+    // 3. Fetch flags and integrated active drivers safely
+    let nationalityFlags = { ...NATIONALITY_FLAGS };
+    let activeDriversData = {};
+    let standingsData = {};
+
+    try {
+      const [flagsRes, activeDriversRes, standingsRes] = await Promise.all([
+        fetch('/data/nationality_flags.json').catch(() => ({ ok: false })),
+        fetch('/data/active_2026_drivers.json').catch(() => ({ ok: false })),
+        fetch('/standings/2026').catch(() => ({ ok: false }))
+      ]);
+
+      if (flagsRes && flagsRes.ok) {
+        try {
+          const flagsData = await flagsRes.json();
+          nationalityFlags = { ...nationalityFlags, ...flagsData };
+        } catch (e) {}
+      }
+
+      if (activeDriversRes && activeDriversRes.ok) {
+        try {
+          activeDriversData = await activeDriversRes.json();
+        } catch (e) {}
+      }
+
+      if (standingsRes && standingsRes.ok) {
+        try {
+          standingsData = await standingsRes.json();
+        } catch (e) {}
+      }
+    } catch (err) {
+      console.error('Failed in parallel fetches', err);
+    }
 
     if (standingsData && standingsData.drivers) {
       const fallbackImage = 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp';
       drivers = standingsData.drivers.map(d => {
         const flag = nationalityFlags[d.driverNationality.toLowerCase()] || '';
-        const image = driverImages[d.driverId] || fallbackImage;
+        const image = (activeDriversData[d.driverId] && activeDriversData[d.driverId].image) || fallbackImage;
         return {
           id: d.driverId,
           name: `${d.givenName} ${d.familyName}`,
@@ -196,31 +277,105 @@ function renderConstructorStandings() {
 }
 
 // Render recent events
-function renderRecentEvents() {
+// Render recent events
+async function renderRecentEvents() {
   const container = document.getElementById('recent-events');
   if (!container) return;
 
-  const eventTypes = {
-    'penalty': '페널티',
-    'incident': '사건',
-    'dnf': 'DNF',
-    'safety-car': '세이프티카',
-    'red-flag': '레드 플래그',
-    'investigation': '조사'
-  };
+  let nationalityFlags = { ...NATIONALITY_FLAGS };
+  try {
+    const flagsRes = await fetch('/data/nationality_flags.json');
+    if (flagsRes.ok) {
+      const flagsData = await flagsRes.json();
+      nationalityFlags = { ...nationalityFlags, ...flagsData };
+    }
+  } catch (e) {
+    console.error('Failed to load flags for dashboard events, using fallback', e);
+  }
 
-  const recent = raceEvents.slice(0, 5);
+  if (raceEvents.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+        표시할 그랑프리가 없습니다.
+      </div>
+    `;
+    return;
+  }
 
-  container.innerHTML = recent.map(event => {
-    const badgeColor = getCategoryColor(event.type);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // 1. Find the index of the most recently held Grand Prix
+  let lastHeldIndex = -1;
+  for (let i = 0; i < raceEvents.length; i++) {
+    const event = raceEvents[i];
+    if (event.date && event.date !== 'N/A') {
+      const eventDate = new Date(event.date);
+      if (eventDate < today) {
+        lastHeldIndex = i; // Keep updating to find the latest held event
+      }
+    }
+  }
+
+  // 2. Select 5 events: 2 before and 2 after the last held event
+  let recent = [];
+  let startIndex = 0;
+  if (lastHeldIndex === -1) {
+    // No events held yet, show first 5
+    recent = raceEvents.slice(0, 5);
+  } else {
+    let start = lastHeldIndex - 2;
+    let end = lastHeldIndex + 2;
+
+    // Adjust boundaries to always get 5 items if possible
+    if (start < 0) {
+      start = 0;
+      end = Math.min(4, raceEvents.length - 1);
+    }
+    if (end >= raceEvents.length) {
+      end = raceEvents.length - 1;
+      start = Math.max(0, end - 4);
+    }
+    startIndex = start;
+    recent = raceEvents.slice(start, end + 1);
+  }
+
+  container.innerHTML = recent.map((event, idx) => {
+    const globalIdx = startIndex + idx;
+    const isLatestHeld = globalIdx === lastHeldIndex;
+    const countryKey = event.country ? event.country.toLowerCase() : '';
+    const flag = nationalityFlags[countryKey] || '';
+
+    // Highlight the latest held grand prix
+    let extraBadge = "";
+    let itemStyle = "border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.85rem; margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.25rem;";
+    
+    if (isLatestHeld) {
+      extraBadge = `
+        <span class="event-badge" style="background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3); font-family: 'Exo 2'; font-weight: 700; font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; display: flex; align-items: center; gap: 0.25rem;">
+          LATEST ⚡
+        </span>
+      `;
+      itemStyle = "border: 1px solid rgba(46, 204, 113, 0.2); background: rgba(46, 204, 113, 0.03); border-radius: 6px; padding: 0.85rem; margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.25rem; box-shadow: 0 4px 12px rgba(46,204,113,0.05);";
+    }
+
     return `
-      <div class="event-item">
-        <div class="event-badge" style="background: ${badgeColor}20; color: ${badgeColor}; border: 1px solid ${badgeColor}30;">
-          ${eventTypes[event.type] || '이벤트'}
+      <div class="event-item" style="${itemStyle}">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="event-badge" style="background: rgba(225, 6, 0, 0.1); color: var(--accent); border: 1px solid rgba(225, 6, 0, 0.2); font-family: 'Orbitron'; font-weight: 700; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.5px;">
+              ROUND ${event.round}
+            </span>
+            ${extraBadge}
+          </div>
+          <span style="font-size: 1.25rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">${flag}</span>
         </div>
-        <div class="event-title">${event.race}</div>
-        <div class="event-desc">
-          ${event.driver ? `<strong style="color: #fff;">${event.driver}</strong> — ` : ''}${event.description}
+        <div class="event-title" style="font-weight: 700; color: var(--text-primary); font-family: 'Exo 2'; font-size: 0.95rem; margin-top: 0.25rem;">
+          ${event.official_name}
+        </div>
+        <div class="event-desc" style="font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.35rem; margin-top: 0.1rem;">
+          <span style="color: var(--accent);">📍</span>
+          <span>${event.location}, ${event.country}</span>
         </div>
       </div>
     `;

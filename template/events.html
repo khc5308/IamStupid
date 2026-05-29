@@ -33,33 +33,40 @@
         <a href="/tracks">트랙</a>
         <a href="/drivers">드라이버</a>
         <a href="/teams">팀</a>
-        <a href="/events" class="active">이벤트</a>
+        <a href="/machines">머신</a>
+        <a href="/events" class="active">그랑프리</a>
         <a href="/faq">FAQ</a>
       </div>
-      <button class="nav-cta" onclick="window.location.href='dashboard.html'">LIVE <span>→</span></button>
+      <button class="nav-cta" onclick="window.location.href='/dashboard'">LIVE <span>→</span></button>
       <button class="mobile-menu-btn" onclick="this.nextElementSibling.classList.toggle('mobile-open')">☰</button>
     </div>
   </nav>
 
   <main class="list-page">
     <div class="page-header container">
-      <div class="section-tag">⚠️ 2025 시즌</div>
-      <h1>이벤트 & 페널티</h1>
-      <p>경기 중 발생한 사고, 페널티, 세이프티카, 레드 플래그 등을 추적합니다.</p>
+      <div class="section-tag">📅 2026 시즌</div>
+      <h1>그랑프리 일정</h1>
+      <p>금년 Formula 1 시즌의 전체 그랑프리 일정과 개최 정보를 한눈에 확인하세요.</p>
     </div>
 
     <div class="container">
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">전체</button>
-        <button class="filter-btn" data-filter="penalty">페널티</button>
-        <button class="filter-btn" data-filter="incident">사건</button>
-        <button class="filter-btn" data-filter="safety-car">세이프티카</button>
-        <button class="filter-btn" data-filter="red-flag">레드 플래그</button>
-      </div>
-
       <div id="events-timeline" class="events-timeline"></div>
     </div>
   </main>
+
+  <!-- Telemetry Simulation Modal -->
+  <div id="telemetry-modal" class="modal">
+    <div class="modal-content" style="max-width: 950px; width: 95%;">
+      <button class="modal-close" onclick="toggleModal('telemetry-modal', false)">✕</button>
+      <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.75rem;">
+        <h2 id="modal-gp-name" style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #fff; margin: 0; font-size: 1.5rem; letter-spacing: 0.05em;"></h2>
+        <p id="modal-gp-info" style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;"></p>
+      </div>
+      <div class="modal-body" style="padding-top: 1rem;">
+        <div id="modal-telemetry-content"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -72,23 +79,23 @@
         <div class="footer-section">
           <h4>페이지</h4>
           <ul>
-            <li><a href="dashboard.html">대시보드</a></li>
-            <li><a href="tracks.html">트랙</a></li>
-            <li><a href="drivers.html">드라이버</a></li>
-            <li><a href="teams.html">팀</a></li>
+            <li><a href="/dashboard">대시보드</a></li>
+            <li><a href="/tracks">트랙</a></li>
+            <li><a href="/drivers">드라이버</a></li>
+            <li><a href="/teams">팀</a></li>
           </ul>
         </div>
         <div class="footer-section">
           <h4>정보</h4>
           <ul>
-            <li><a href="machines.html">머신</a></li>
-            <li><a href="events.html">이벤트</a></li>
-            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="/machines">머신</a></li>
+            <li><a href="/events">그랑프리</a></li>
+            <li><a href="/faq">FAQ</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 IamStupid. All rights reserved.</p>
+        <p>&copy; 2026 IamStupid. All rights reserved.</p>
       </div>
     </div>
   </footer>

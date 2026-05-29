@@ -58,6 +58,10 @@ async def events():
 @app.get("/faq")
 async def faq():
     return FileResponse('./template/faq.html')
+@app.get("/machines")
+async def machines():
+    return FileResponse('./template/machines.html')
+
 
 
 # GET | 특정 이벤트의 특정 드라이버 랩 데이터
@@ -186,6 +190,94 @@ def get_driver_list(year: int, event: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@app.get("/telemetry/{year}/{event}/{driver}")
+def get_driver_telemetry(year: int, event: str, driver: str):
+    try:
+        session = None
+        loaded_year = year
+        loaded_event = event
+        
+        # Try loading specified session
+        try:
+            session = fastf1.get_session(year, event, 'R')
+            session.load(laps=True, telemetry=True, weather=False)
+        except Exception:
+            # Fallback to 2024 same event
+            try:
+                session = fastf1.get_session(2024, event, 'R')
+                session.load(laps=True, telemetry=True, weather=False)
+                loaded_year = 2024
+            except Exception:
+                # Fallback to 2024 Bahrain Grand Prix
+                session = fastf1.get_session(2024, 'Bahrain Grand Prix', 'R')
+                session.load(laps=True, telemetry=True, weather=False)
+                loaded_year = 2024
+                loaded_event = 'Bahrain Grand Prix'
+                
+        driver_code = driver.upper()
+        
+        # Find driver in session laps
+        laps = session.laps.pick_drivers(driver_code)
+        if len(laps) == 0:
+            # Try to match driver abbreviation from session driver list
+            matched_driver_id = None
+            for d in session.drivers:
+                try:
+                    info = session.get_driver(d)
+                    if info['Abbreviation'].upper() == driver_code or driver_code in info['FullName'].upper():
+                        matched_driver_id = d
+                        break
+                except Exception:
+                    pass
+            if matched_driver_id:
+                laps = session.laps.pick_drivers(matched_driver_id)
+                
+        if len(laps) == 0:
+            # Fallback to session's fastest lap
+            lap = session.laps.pick_fastest()
+        else:
+            lap = laps.pick_fastest()
+            
+        driver_name = lap['Driver']
+        telemetry = lap.get_telemetry()
+        
+        total_points = len(telemetry)
+        if total_points == 0:
+            raise HTTPException(status_code=404, detail="No telemetry data available")
+            
+        # Downsample to ~250 points to optimize speed and payload size
+        step = max(1, total_points // 250)
+        sampled_telemetry = telemetry.iloc[::step]
+        
+        points = []
+        for idx, row in sampled_telemetry.iterrows():
+            time_sec = row['Time'].total_seconds() if pd.notna(row['Time']) else 0.0
+            points.append({
+                "time": time_sec,
+                "distance": float(row['Distance']) if pd.notna(row['Distance']) else 0.0,
+                "speed": float(row['Speed']) if pd.notna(row['Speed']) else 0.0,
+                "rpm": float(row['RPM']) if pd.notna(row['RPM']) else 0.0,
+                "gear": int(row['nGear']) if pd.notna(row['nGear']) else 0,
+                "throttle": float(row['Throttle']) if pd.notna(row['Throttle']) else 0.0,
+                "brake": bool(row['Brake']) if pd.notna(row['Brake']) else False,
+                "drs": int(row['DRS']) if pd.notna(row['DRS']) else 0,
+                "x": float(row['X']) if pd.notna(row['X']) else 0.0,
+                "y": float(row['Y']) if pd.notna(row['Y']) else 0.0,
+                "z": float(row['Z']) if pd.notna(row['Z']) else 0.0
+            })
+            
+        return {
+            "driver": driver_name,
+            "year": loaded_year,
+            "event": loaded_event,
+            "lap_time": str(lap['LapTime']) if pd.notna(lap['LapTime']) else "N/A",
+            "telemetry": points
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # GET | 최신  이벤트
 @app.get("/events/last")
 async def get_latest_event():
@@ -217,11 +309,16 @@ def get_event_list(year: int):
         
         event_list = []
         for _, row in schedule.iterrows():
+            event_date = "N/A"
+            if 'EventDate' in row and not pd.isna(row['EventDate']):
+                event_date = row['EventDate'].strftime('%Y-%m-%d')
+                
             event_list.append({
                 "round": row['RoundNumber'],
                 "country": row['Country'],
                 "location": row['Location'],
-                "official_name": row['EventName']
+                "official_name": row['EventName'],
+                "date": event_date
             })
             
         return {"year": year, "events": event_list}

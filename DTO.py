@@ -26,6 +26,7 @@ class EventInfo(BaseModel):
     country: str
     location: str
     official_name: str
+    date: str
 
 class EventListResponse(BaseModel):
     year: int

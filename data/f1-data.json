@@ -198,5 +198,183 @@
       "engine": "Honda",
       "bio": "대규모 투자와 기술진 보강으로 장기적인 우승 프로젝트를 진행 중인 팀. Aston Martin 계열 역사상 GP 우승 기록은 1회다."
     }
+  ],
+  "machines": [
+    {
+      "id": "mercedes-w17",
+      "name": "Mercedes-AMG F1 W17",
+      "teamId": "mercedes",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Mercedes-AMG M17 E Performance",
+      "description": "실버 애로우의 공기역학 결정체. 2026년 새로운 규정에 맞춰 하이브리드 파워 성능을 극대화한 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "탄소 섬유 벌집 구조 복합체 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "탄소 섬유 메인케이스 전진 8단 반자동" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 디스크 및 주조 알루미늄 캘리퍼" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 18인치 레이싱 컴파운드" }
+      ]
+    },
+    {
+      "id": "ferrari-sf26",
+      "name": "Ferrari SF-26",
+      "teamId": "ferrari",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
+      "description": "스쿠데리아 페라리의 2026년 타이틀 탈환을 위한 무기. 마라넬로의 혁신적인 다운포스 설계가 특징.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "탄소 섬유 및 케블라 합성 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "페라리 자체제작 종동 8단 시퀀셜" },
+        { "label": "서스펜션 (Suspension)", "value": "풀로드 전/후륜 액티브 지오메트리 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "AP Racing 카본 세라믹 하이테크 디스크" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli F1 스펙 건조/우천용 타이어" }
+      ]
+    },
+    {
+      "id": "mclaren-mcl38",
+      "name": "McLaren MCL38",
+      "teamId": "mclaren",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Mercedes-AMG M17 E Performance",
+      "description": "파파야 오렌지의 질주. 극단적인 슬림 사이드포드 설계로 공기 흐름을 최적화한 고속 코너링 스페셜리스트.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "맥라렌 카본 아라미드 복합 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "8단 퀵시프트 유압 제어 변속기" },
+        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 푸시로드 후륜 더블 위시본" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 벤틸레이티드 로터" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 오존/레이스 전용 타이어" }
+      ]
+    },
+    {
+      "id": "redbull-rb22",
+      "name": "Red Bull Racing RB22",
+      "teamId": "red-bull",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Red Bull Ford 2026 Power Unit",
+      "description": "포드와의 협업으로 탄생한 차세대 머신. 최고의 다운포스 효율성과 직선주로 가속 성능을 보장하는 에어로 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "레드불 레이싱 모놀리식 탄소 섬유 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "유압식 다이렉트 드라이브 8단 반자동" },
+        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 풀로드 후륜 지능형 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 탄소 섬유 브레이크 어셈블리" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 드라이/웨트 18인치 포뮬러 타이어" }
+      ]
+    },
+    {
+      "id": "astonmartin-amr26",
+      "name": "Aston Martin AMR26",
+      "teamId": "aston-martin",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Honda H260 V6 Turbo Hybrid",
+      "description": "혼다의 최신 워크스 엔진과 아드리안 뉴이의 에어로다이나믹스 감각이 융합된 영국 하이퍼 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "애스턴마틴 첨단 탄소 섬유 허니콤 구조" },
+        { "label": "변속기 (Gearbox)", "value": "혼다 팩토리 유압 유닛 연동 8단 시퀀셜" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "AP Racing 탄소 섬유 복합 디스크" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli P-Zero 하이 퍼포먼스 타이어" }
+      ]
+    },
+    {
+      "id": "alpine-a526",
+      "name": "Alpine A526",
+      "teamId": "alpine",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Mercedes-AMG M17 E Performance",
+      "description": "메르세데스 파워로 전환한 알핀의 첫 머신. 뛰어난 직진 가속 및 경량화 바디 설계가 돋보입니다.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "알핀 탄소 섬유 경량 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "종동식 8단 시퀀셜 카본 케이싱" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 독립 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 하이 리스폰스 카본 디스크" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 18인치 레이싱 슬릭 타이어" }
+      ]
+    },
+    {
+      "id": "racingbulls-vcarb02",
+      "name": "Racing Bulls VCARB 02",
+      "teamId": "racing-bulls",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Red Bull Ford 2026 Power Unit",
+      "description": "젊은 드라이버들의 야망을 뒷받침하는 머신. 컴팩트하고 민첩한 차체 제어 성능이 일품입니다.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "VCARB 고강도 탄소 합성 허니콤 구조" },
+        { "label": "변속기 (Gearbox)", "value": "레드불 테크놀로지 8단 유압 변속기" },
+        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 풀로드 후륜 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 브레이크 캘리퍼" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli F1 스탠다드 컴파운드 타이어" }
+      ]
+    },
+    {
+      "id": "haas-vf26",
+      "name": "Haas VF-26",
+      "teamId": "haas",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
+      "description": "실용주의 미국의 도전. 페라리와의 견고한 파트너십을 바탕으로 다운포스 밸런스를 향상시킨 가성비 최고의 하이퍼 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "달라라(Dallara) 설계 탄소 섬유 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "페라리 제공 8단 유압식 시퀀셜" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 로터 및 고온 캘리퍼" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 건조 및 습윤 노면용 F1 타이어" }
+      ]
+    },
+    {
+      "id": "williams-fw48",
+      "name": "Williams FW48",
+      "teamId": "williams",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Mercedes-AMG M17 E Performance",
+      "description": "명가 부활을 알리는 푸른 머신. 탁월한 냉각 시스템 설계로 더운 레이스 트랙에서도 최고의 내구성을 발휘합니다.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "윌리엄스 첨단 컴포지트 레이아웃 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "메르세데스 변속기 모듈 기반 8단 기어박스" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 모노 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "AP Racing 익스트림 스펙 카본 디스크" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 포뮬러 원 전용 컴파운드 타이어" }
+      ]
+    },
+    {
+      "id": "audi-rsq01",
+      "name": "Audi RS Q e-tron F1",
+      "teamId": "audi",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Audi F1 Power Unit",
+      "description": "F1에 새롭게 합류한 아우디 팩토리 팀의 야심작. 독일 하이테크 하이브리드 기술의 에센스가 가득 담긴 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "아우디 스포츠 자체 설계 초경량 탄소 허니콤" },
+        { "label": "변속기 (Gearbox)", "value": "아우디 팩토리 자체 개발 8단 더블 클러치형" },
+        { "label": "서스펜션 (Suspension)", "value": "풀로드 전/후륜 액티브 컴포트 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "AP Racing 스포츠 스펙 카본 세라믹 브레이크" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 프리미엄 레이싱 스펙 타이어" }
+      ]
+    },
+    {
+      "id": "cadillac-f126",
+      "name": "Cadillac F1-26",
+      "teamId": "cadillac",
+      "year": 2026,
+      "weight": 798,
+      "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
+      "description": "2026 그리드에 새로 참가한 미국의 하이포먼스 머신. 안정적인 코너 탈출과 직선주로 가속 밸런스에 집중한 머신.",
+      "specs": [
+        { "label": "섀시 (Chassis)", "value": "캐딜락 어드밴스드 합성 탄소 벌집 모노코크" },
+        { "label": "변속기 (Gearbox)", "value": "자체 설계 유압식 시프트 8단 변속 유닛" },
+        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
+        { "label": "브레이크 (Brakes)", "value": "Brembo 포뮬러 전용 카본 복합 제동 시스템" },
+        { "label": "타이어 (Tyres)", "value": "Pirelli 건조 노면 및 웻 레이스용 타이어" }
+      ]
+    }
   ]
 }

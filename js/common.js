@@ -43,12 +43,12 @@ function initMobileMenu() {
 
 // Set active nav link based on current page
 function setActiveNavLink() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const path = window.location.pathname;
   const navLinks = document.querySelectorAll('.nav-links a');
   
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+    if (href === path || (path === '/' && href === '/') || (path === '' && href === '/')) {
       link.classList.add('active');
     } else {
       link.classList.remove('active');
@@ -188,4 +188,36 @@ function createCard(content, classes = '') {
   return card;
 }
 
+// Shared Team Logos & utility
+const TEAM_LOGOS = {
+  'mclaren': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/mclaren/2025mclarenlogowhite.webp',
+  'mercedes': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/mercedes/2025mercedeslogowhite.webp',
+  'red-bull': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/redbullracing/2025redbullracinglogowhite.webp',
+  'ferrari': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/ferrari/2025ferrarilogolight.webp',
+  'williams': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/williams/2025williamslogowhite.webp',
+  'racing-bulls': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/racingbulls/2025racingbullslogowhite.webp',
+  'aston-martin': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/astonmartin/2025astonmartinlogowhite.webp',
+  'haas': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/haas/2025haaslogowhite.webp',
+  'audi': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2026/audi/2026audilogowhite.webp',
+  'alpine': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2025/alpine/2025alpinelogowhite.webp',
+  'cadillac': 'https://media.formula1.com/image/upload/c_fit,h_64/q_auto/v1740000001/common/f1/2026/cadillac/2026cadillaclogowhite.webp'
+};
+
+function getTeamLogoUrl(teamName = '') {
+  const lower = teamName.toLowerCase();
+  if (lower.includes('red bull') || lower.includes('rbr')) return TEAM_LOGOS['red-bull'];
+  if (lower.includes('ferrari') || lower.includes('scuderia')) return TEAM_LOGOS['ferrari'];
+  if (lower.includes('mclaren')) return TEAM_LOGOS['mclaren'];
+  if (lower.includes('mercedes')) return TEAM_LOGOS['mercedes'];
+  if (lower.includes('aston martin')) return TEAM_LOGOS['aston-martin'];
+  if (lower.includes('alpine')) return TEAM_LOGOS['alpine'];
+  if (lower.includes('williams')) return TEAM_LOGOS['williams'];
+  if (lower.includes('haas')) return TEAM_LOGOS['haas'];
+  if (lower.includes('rb') || lower.includes('racing bulls') || lower.includes('vcarb')) return TEAM_LOGOS['racing-bulls'];
+  if (lower.includes('audi')) return TEAM_LOGOS['audi'];
+  if (lower.includes('cadillac')) return TEAM_LOGOS['cadillac'];
+  return '';
+}
+
 console.log('F1 HUB Common JS loaded');
+

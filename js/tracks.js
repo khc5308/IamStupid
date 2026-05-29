@@ -39,7 +39,7 @@ function renderTracks() {
   grid.innerHTML = filteredTracks.map(track => `
     <div class="card" onclick="showTrackModal('${track.id}')">
       <div style="height: 120px; background: linear-gradient(135deg, #1a1a2e 0%, #242438 100%); display: flex; align-items: center; justify-content: center; margin: -1.25rem -1.25rem 1rem; font-size: 3rem; opacity: 0.3;">
-        ${track.flag}
+        🏁
       </div>
       <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
         <div>
@@ -88,7 +88,7 @@ function showTrackModal(trackId) {
   if (!track) return;
 
   document.getElementById('modal-track-name').textContent = track.name;
-  document.getElementById('modal-track-location').textContent = `${track.city}, ${track.country} • ${track.flag}`;
+  document.getElementById('modal-track-location').textContent = `${track.city}, ${track.country}`;
 
   const content = `
     <div class="modal-section">

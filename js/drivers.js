@@ -81,7 +81,7 @@ function renderCard(driver) {
 
     // 얼굴 이미지 선택 (없을 경우 fallback 기본 이미지 사용)
     const fallbackImage = 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp';
-    const imageUrl = DRIVER_IMAGES[driver.id] || fallbackImage;
+    const imageUrl = driver.image || fallbackImage;
 
     const logoUrl = getTeamLogoUrl(driver.team);
     const logoImg = logoUrl ? `<img src="${logoUrl}" alt="${driver.team}" style="height: 14px; max-width: 30px; object-fit: contain; vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));" />` : '🏎️ ';
@@ -254,7 +254,7 @@ async function showDriverModal(driverId) {
 
     teamEl.innerHTML = `
         <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;">
-            <span style="font-weight: 600; color: #fff;">${driver.flag || '🏁'} ${driver.team}</span>
+            <span style="font-weight: 600; color: #fff;">${driver.team}</span>
             <span style="color: #8c8c9e;">• ${driver.nationality || 'N/A'}</span>
         </div>
     `;
@@ -524,14 +524,13 @@ async function showDriverModal(driverId) {
  */
 async function updateDriverLayout() {
     try {
-        const [flagsRes, activeRes, imagesRes] = await Promise.all([
+        const [flagsRes, activeRes] = await Promise.all([
             fetch('/data/nationality_flags.json'),
-            fetch('/data/active_2026_drivers.json'),
-            fetch('/data/driver_images.json')
+            fetch('/data/active_2026_drivers.json')
         ]);
         NATIONALITY_FLAGS = await flagsRes.json();
         ACTIVE_2026_DRIVERS = await activeRes.json();
-        DRIVER_IMAGES = await imagesRes.json();
+        DRIVER_IMAGES = {};
 
         const eventRes = await fetch('/events/last');
         if (!eventRes.ok) throw new Error('이벤트 정보를 가져오는데 실패했습니다.');
@@ -578,7 +577,7 @@ async function updateDriverLayout() {
             }
 
             const nationalityLower = (rawInfo.driverNationality || rawInfo.nationality || '').toLowerCase();
-            const flag = NATIONALITY_FLAGS[nationalityLower] || '🏁';
+            const flag = NATIONALITY_FLAGS[nationalityLower] || '';
 
             // 2026 시즌 활성 시트 보유 드라이버 여부 체크
             const active2026 = ACTIVE_2026_DRIVERS[driverId];
@@ -597,7 +596,8 @@ async function updateDriverLayout() {
                     wins: '-',
                     bio: `국적: ${rawInfo.driverNationality || rawInfo.nationality || 'N/A'} | 출생: ${rawInfo.dateOfBirth || 'N/A'}`,
                     teamColor: getTeamColor(active2026.team),
-                    is_active: true
+                    is_active: true,
+                    image: active2026.image || 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp'
                 };
                 activeDrivers.push(info);
                 foundActiveIds.add(driverId);
@@ -616,7 +616,8 @@ async function updateDriverLayout() {
                     wins: '-',
                     bio: `국적: ${rawInfo.driverNationality || rawInfo.nationality || 'N/A'} | 출생: ${rawInfo.dateOfBirth || 'N/A'}`,
                     teamColor: '#707080',
-                    is_active: false
+                    is_active: false,
+                    image: 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp'
                 };
                 inactiveDrivers.push(info);
             }
@@ -651,7 +652,7 @@ async function updateDriverLayout() {
                         age--;
                     }
                 }
-                const flag = NATIONALITY_FLAGS[nationality.toLowerCase()] || '🏁';
+                const flag = NATIONALITY_FLAGS[nationality.toLowerCase()] || '';
 
                 activeDrivers.push({
                     id: driverId,
@@ -666,7 +667,8 @@ async function updateDriverLayout() {
                     wins: '-',
                     bio: `국적: ${nationality} | 출생: ${dob}`,
                     teamColor: getTeamColor(active2026.team),
-                    is_active: true
+                    is_active: true,
+                    image: active2026.image || 'https://media.formula1.com/image/upload/c_fill,w_440,h_440,g_north/q_auto/d_common:f1:2026:fallback:driver:2026fallbackdriverright.webp'
                 });
             }
         });
