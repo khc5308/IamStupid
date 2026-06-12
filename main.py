@@ -140,7 +140,8 @@ async def get_all_drivers():
 @app.get("/drivers/{year}/{event}/{session_type}", response_model=DriverListResponse)
 def get_driver_list(year: int, event: str, session_type: str):
     try:
-        session = fastf1.get_session(year, event, session_type)
+        event_id = int(event) if event.isdigit() else event
+        session = fastf1.get_session(year, event_id, session_type)
         session.load(laps=False, telemetry=False, weather=False)
 
         driver_list = []
@@ -154,31 +155,7 @@ def get_driver_list(year: int, event: str, session_type: str):
             })
 
         if len(driver_list) == 0:
-            try:
-                fallback_session = fastf1.get_session(2024, event, session_type)
-                fallback_session.load(laps=False, telemetry=False, weather=False)
-                for i in fallback_session.drivers:
-                    dr_info = fallback_session.get_driver(i)
-                    driver_list.append({
-                        "number": i,
-                        "abbreviation": dr_info['Abbreviation'],
-                        "full_name": dr_info['FullName'],
-                        "team": dr_info['TeamName'],
-                    })
-            except Exception:
-                try:
-                    fallback_session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
-                    fallback_session.load(laps=False, telemetry=False, weather=False)
-                    for i in fallback_session.drivers:
-                        dr_info = fallback_session.get_driver(i)
-                        driver_list.append({
-                            "number": i,
-                            "abbreviation": dr_info['Abbreviation'],
-                            "full_name": dr_info['FullName'],
-                            "team": dr_info['TeamName'],
-                        })
-                except Exception:
-                    pass
+            raise HTTPException(status_code=404, detail="No drivers found for this session")
 
         return {
             "year": year,
@@ -186,22 +163,18 @@ def get_driver_list(year: int, event: str, session_type: str):
             "drivers": driver_list
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
 
 
 @app.get("/live-timing/{year}/{event}/{session_type}")
 def get_live_timing(year: int, event: str, session_type: str):
     try:
+        event_id = int(event) if event.isdigit() else event
         try:
-            session = fastf1.get_session(year, event, session_type)
+            session = fastf1.get_session(year, event_id, session_type)
             session.load(telemetry=False, weather=False, messages=False)
         except Exception:
-            try:
-                session = fastf1.get_session(2024, event, session_type)
-                session.load(telemetry=False, weather=False, messages=False)
-            except Exception:
-                session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
-                session.load(telemetry=False, weather=False, messages=False)
+            raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
 
         laps = session.laps
         if len(laps) == 0:
@@ -265,20 +238,13 @@ def get_driver_telemetry(year: int, event: str, session_type: str, driver: str):
         session = None
         loaded_year = year
         loaded_event = event
+        event_id = int(event) if event.isdigit() else event
         
         try:
-            session = fastf1.get_session(year, event, session_type)
+            session = fastf1.get_session(year, event_id, session_type)
             session.load(laps=True, telemetry=True, weather=False)
         except Exception:
-            try:
-                session = fastf1.get_session(2024, event, session_type)
-                session.load(laps=True, telemetry=True, weather=False)
-                loaded_year = 2024
-            except Exception:
-                session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
-                session.load(laps=True, telemetry=True, weather=False)
-                loaded_year = 2024
-                loaded_event = 'Bahrain Grand Prix'
+            raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
                 
         driver_code = driver.upper()
         
@@ -328,17 +294,185 @@ def get_driver_telemetry(year: int, event: str, session_type: str, driver: str):
                 "z": float(row['Z']) if pd.notna(row['Z']) else 0.0
             })
             
+        def to_str(val):
+            if pd.isna(val): return "N/A"
+            if hasattr(val, 'total_seconds'):
+                sec = val.total_seconds()
+                mins = int(sec // 60)
+                s = sec % 60
+                return f"{mins}:{s:06.3f}" if mins > 0 else f"{s:.3f}"
+            return str(val)
+
         return {
             "driver": driver_name,
             "year": loaded_year,
             "event": loaded_event,
             "session": session_type,
-            "lap_time": str(lap['LapTime']) if pd.notna(lap['LapTime']) else "N/A",
+            "lap_time": to_str(lap['LapTime']),
+            "lap_time_sec": lap['LapTime'].total_seconds() if pd.notna(lap['LapTime']) else 0.0,
+            "s1": to_str(lap['Sector1Time']),
+            "s1_sec": lap['Sector1Time'].total_seconds() if pd.notna(lap['Sector1Time']) else 0.0,
+            "s2": to_str(lap['Sector2Time']),
+            "s2_sec": lap['Sector2Time'].total_seconds() if pd.notna(lap['Sector2Time']) else 0.0,
+            "s3": to_str(lap['Sector3Time']),
+            "s3_sec": lap['Sector3Time'].total_seconds() if pd.notna(lap['Sector3Time']) else 0.0,
+            "compound": str(lap['Compound']) if pd.notna(lap['Compound']) else "N/A",
+            "tyre_life": float(lap['TyreLife']) if pd.notna(lap['TyreLife']) else 0.0,
             "telemetry": points
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/race-simulation/{year}/{event}/{session_type}")
+def get_race_simulation(year: int, event: str, session_type: str, drivers: str = None):
+    try:
+        event_id = int(event) if event.isdigit() else event
+        try:
+            session = fastf1.get_session(year, event_id, session_type)
+            session.load(laps=True, telemetry=True, weather=False)
+        except Exception:
+            raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
+
+        def to_str(val):
+            if pd.isna(val): return "N/A"
+            if hasattr(val, 'total_seconds'):
+                sec = val.total_seconds()
+                mins = int(sec // 60)
+                s = sec % 60
+                return f"{mins}:{s:06.3f}" if mins > 0 else f"{s:.3f}"
+            return str(val)
+
+        # Parse selected drivers
+        selected_driver_ids = []
+        if drivers:
+            drvs = [d.strip().upper() for d in drivers.split(',')]
+            for d in session.drivers:
+                info = session.get_driver(d)
+                if info['Abbreviation'].upper() in drvs:
+                    selected_driver_ids.append(d)
+        else:
+            selected_driver_ids = list(session.drivers)
+
+        # 1. Track map data (using fastest lap telemetry)
+        fastest_lap = session.laps.pick_fastest()
+        track_data = []
+        if not pd.isna(fastest_lap['Time']):
+            track_tel = fastest_lap.get_telemetry()
+            track_step = max(1, len(track_tel) // 250)
+            for _, row in track_tel.iloc[::track_step].iterrows():
+                track_data.append({
+                    "x": float(row['X']) if pd.notna(row['X']) else 0.0,
+                    "y": float(row['Y']) if pd.notna(row['Y']) else 0.0,
+                    "distance": float(row['Distance']) if pd.notna(row['Distance']) else 0.0,
+                    "time": row['Time'].total_seconds() if pd.notna(row['Time']) else 0.0
+                })
+
+        # 2. Position data for selected drivers
+        positions = {}
+        if hasattr(session, 'pos_data'):
+            for drv in selected_driver_ids:
+                if drv not in session.pos_data: continue
+                pos = session.pos_data[drv]
+                if pos.empty: continue
+                # Downsample to ~2Hz (FastF1 pos_data is usually ~3-4Hz, so step of 2)
+                p_step = max(1, len(pos) // 10000)
+                pts = []
+                for _, row in pos.iloc[::p_step].iterrows():
+                    sec = row['SessionTime'].total_seconds() if pd.notna(row['SessionTime']) else 0
+                    x = float(row['X']) if pd.notna(row['X']) else 0.0
+                    y = float(row['Y']) if pd.notna(row['Y']) else 0.0
+                    pts.append([round(sec, 2), round(x, 1), round(y, 1)])
+                # Store by abbreviation
+                abbr = session.get_driver(drv)['Abbreviation']
+                positions[abbr] = pts
+
+        # 3. Laps data
+        laps_dict = {}
+        for drv in selected_driver_ids:
+            drv_laps = session.laps.pick_driver(drv)
+            drv_info = []
+            for _, lap in drv_laps.iterrows():
+                drv_info.append({
+                    "lap_num": int(lap['LapNumber']),
+                    "start_time": lap['LapStartTime'].total_seconds() if pd.notna(lap['LapStartTime']) else 0,
+                    "time": lap['Time'].total_seconds() if pd.notna(lap['Time']) else 0, # end time
+                    "lap_time": to_str(lap['LapTime']),
+                    "lap_time_sec": lap['LapTime'].total_seconds() if pd.notna(lap['LapTime']) else 0,
+                    "s1": to_str(lap['Sector1Time']),
+                    "s1_sec": lap['Sector1Time'].total_seconds() if pd.notna(lap['Sector1Time']) else 0,
+                    "s2": to_str(lap['Sector2Time']),
+                    "s2_sec": lap['Sector2Time'].total_seconds() if pd.notna(lap['Sector2Time']) else 0,
+                    "s3": to_str(lap['Sector3Time']),
+                    "s3_sec": lap['Sector3Time'].total_seconds() if pd.notna(lap['Sector3Time']) else 0,
+                    "compound": str(lap['Compound']) if pd.notna(lap['Compound']) else "N/A",
+                    "tyre_life": float(lap['TyreLife']) if pd.notna(lap['TyreLife']) else 0
+                })
+            abbr = session.get_driver(drv)['Abbreviation']
+            laps_dict[abbr] = drv_info
+
+        return {
+            "track": track_data,
+            "positions": positions,
+            "laps": laps_dict
+        }
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
+
+@app.get("/telemetry-lap/{year}/{event}/{session_type}/{driver}/{lap_number}")
+def get_telemetry_lap(year: int, event: str, session_type: str, driver: str, lap_number: int):
+    try:
+        event_id = int(event) if event.isdigit() else event
+        try:
+            session = fastf1.get_session(year, event_id, session_type)
+            session.load(laps=True, telemetry=True, weather=False)
+        except Exception:
+            raise HTTPException(status_code=404, detail="해당 세션의 데이터를 찾을 수 없습니다.")
+            
+        driver_code = driver.upper()
+        laps = session.laps.pick_drivers(driver_code)
+        if len(laps) == 0:
+            for d in session.drivers:
+                try:
+                    info = session.get_driver(d)
+                    if info['Abbreviation'].upper() == driver_code:
+                        laps = session.laps.pick_drivers(d)
+                        break
+                except Exception:
+                    pass
+                    
+        lap = laps[laps['LapNumber'] == lap_number]
+        if len(lap) == 0:
+            raise HTTPException(status_code=404, detail="해당 랩의 데이터를 찾을 수 없습니다.")
+            
+        lap = lap.iloc[0]
+        telemetry = lap.get_telemetry()
+        if len(telemetry) == 0:
+            raise HTTPException(status_code=404, detail="No telemetry data available")
+            
+        step = max(1, len(telemetry) // 250)
+        sampled_telemetry = telemetry.iloc[::step]
+        
+        points = []
+        for _, row in sampled_telemetry.iterrows():
+            points.append({
+                "time": row['Time'].total_seconds() if pd.notna(row['Time']) else 0.0,
+                "distance": float(row['Distance']) if pd.notna(row['Distance']) else 0.0,
+                "speed": float(row['Speed']) if pd.notna(row['Speed']) else 0.0,
+                "rpm": float(row['RPM']) if pd.notna(row['RPM']) else 0.0,
+                "gear": int(row['nGear']) if pd.notna(row['nGear']) else 0,
+                "throttle": float(row['Throttle']) if pd.notna(row['Throttle']) else 0.0,
+                "brake": bool(row['Brake']) if pd.notna(row['Brake']) else False,
+                "drs": int(row['DRS']) if pd.notna(row['DRS']) else 0
+            })
+            
+        return {
+            "driver": driver_code,
+            "lap_number": lap_number,
+            "lap_time": str(lap['LapTime']) if pd.notna(lap['LapTime']) else "N/A",
+            "telemetry": points
+        }
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 # GET | 최신  이벤트
 @app.get("/events/last")

@@ -44,29 +44,34 @@
 
   <main class="list-page">
     <div class="page-header container">
-      <div class="section-tag">📅 2026 시즌</div>
-      <h1>그랑프리 일정</h1>
-      <p>금년 Formula 1 시즌의 전체 그랑프리 일정과 개최 정보를 한눈에 확인하세요.</p>
+      <div class="section-tag">🏁 그랑프리 라이브 타이밍</div>
+      <h1>그랑프리 텔레메트리</h1>
+      <p>원하는 연도와 그랑프리를 선택하여 실시간 텔레메트리와 타이밍 데이터를 확인하세요.</p>
     </div>
 
     <div class="container">
-      <div id="events-timeline" class="events-timeline"></div>
+      <!-- Selector Area -->
+      <div style="display: flex; gap: 1rem; margin-bottom: 2rem; background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label style="color: var(--text-secondary); font-weight: 600; font-size: 0.9rem;">연도:</label>
+          <select id="year-selector" style="background: #101026; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 0.5rem 1rem; border-radius: 4px; font-family: 'Exo 2'; font-weight: 600; font-size: 1rem; outline: none; cursor: pointer;">
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-grow: 1;">
+          <label style="color: var(--text-secondary); font-weight: 600; font-size: 0.9rem;">그랑프리:</label>
+          <select id="event-selector" style="background: #101026; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 0.5rem 1rem; border-radius: 4px; font-family: 'Exo 2'; font-weight: 600; font-size: 1rem; outline: none; cursor: pointer; width: 100%; max-width: 400px;">
+            <!-- Options populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Container -->
+      <div id="main-telemetry-content">
+        <!-- Dashboard rendered by JS -->
+      </div>
     </div>
   </main>
-
-  <!-- Telemetry Simulation Modal -->
-  <div id="telemetry-modal" class="modal">
-    <div class="modal-content" style="max-width: 950px; width: 95%;">
-      <button class="modal-close" onclick="toggleModal('telemetry-modal', false)">✕</button>
-      <div class="modal-header" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.75rem;">
-        <h2 id="modal-gp-name" style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #fff; margin: 0; font-size: 1.5rem; letter-spacing: 0.05em;"></h2>
-        <p id="modal-gp-info" style="margin: 0.25rem 0 0; color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;"></p>
-      </div>
-      <div class="modal-body" style="padding-top: 1rem;">
-        <div id="modal-telemetry-content"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- Footer -->
   <footer>
