@@ -81,18 +81,20 @@ document.addEventListener('DOMContentLoaded', async function () {
   setupModalClose('team-modal');
 });
 
-const TEAM_LOGOS = {
-  'mclaren': 'https://i.namu.wiki/i/UmWlnoOQ7sQ9pROqTYqHr9UAI9k18K-9lOgqIOJDKgJUXNjISQbPXQrdqXfBTF82yq6cqiOtfgqS3IV3MEtLMpYX6uchDY9aQkMNXd0k4xb-COYQyfbYCx5ohGRV-noaURJoXuWRYeIri-Mjn40vfQ.svg',
-  'mercedes': 'https://i.namu.wiki/i/k7PRpRwhmDOwhNcnteWFOYwCG8eSV1JjcobUjS0lnzMxWRLD2ogokzFr-7DLFXt8dAcm1ixImbwDOjuWPM9Aq3Jis58zAKYRua5Io6kBxV5S_MYz8l6v6ky9C5grutInP14UxQcG-ce1UtamTgIlGQ.svg',
-  'red-bull': 'https://i.namu.wiki/i/mWd3sSjk55vh3IlK_txTBIMIJHTHTaRMQTOjRyD_jdLgC-GGeMqHaSXXL0cK5orMMF5pTd5SXrTD7LP3xiDlwe2RT1MAeg_DVrBmXm5-Krw_jSx7N16yvOQzTHAmmg51QP1LVnWtYQyOzVgEdUsrHw.svg',
-  'ferrari': 'https://i.namu.wiki/i/90IqlN7dGX9wmfiXv0iXcxGxJhJBA6e2QD83Xd8i2YZAbPN_9kcx0Xi2uKl73bV3XtnOrgPYqMVyaq3n4K0WOlWHJ7YFLFWy29rBoxbXDdD78CUOYxlp370ZK3TK4ua1v4-IcGxWa0ukcQNxfnTczA.svg',
-  'williams': 'https://i.namu.wiki/i/lZ0MJHxzTsQ7VZ5lafmry53hyZxlv6r4WsxFqXOHIsRUezRgpsqwtMO-bNUtYxwk1LYw8u137GnFFvbP-JO1DSXifySpaVO9mLZqfKcfZmBihuCNVhPJ_Rw5Rv-KOnSR5waIATUalLb-mnfyEUSMkA.webp',
-  'racing-bulls': 'https://i.namu.wiki/i/KvLAZzWksv5hK-arTehPJic6aUjJoTUvDfxQuBY9RL7hJjTRifyzIVr74W3O3yT35Sygu-xoSLvQK1cKBQMH7qKvBBEFZa4465xw2DZroCqc9tKdrg3ZHy1xiSJ8M0c3HPxVSyvzB6WkMbUjh3cecg.webp',
-  'aston-martin': 'https://i.namu.wiki/i/MGTWEGmUQGObWQ4YscnDLexQefkNrAfn9OucqFiFRM15a19DmytiZKk4UDSEAJ4SAC-ltrtP0KmFFSt4iPfnbZ-yA2JqZSmIQ_ewRqcFMBUbgyXG5_mnPW7885HgHj2AnRLTbdRMoZYYP5KlyQpXIQ.svg',
-  'haas': 'https://i.namu.wiki/i/kWNwDiVS0Io-gEyvVVboatPIFn56TDxhNRnMTAUCj9UWaeYBoSMChM9igp5S6GbWExbFwQ3X-NdbW7sQwBwPuf3TinenV4LDsLEr10rqPxEXfBU67L0u1mgEWTwudocrEfVtObrrDFsWEScdtdZX0g.webp',
-  'audi': 'https://i.namu.wiki/i/RgVhLL0JKUix55ccqVI9R8tnC-Nf45RpLBGYg-f9vwCezuMdOflq9Qu3dwc-DCEKK16ATIONPFDwfEK63ACZkIaWKdiOCsOLGv7i9_K61RrcPayBgf65ttHjvNI7_F6k82aEzWak56OQsbkc2dPUSA.svg',
-  'alpine': 'https://i.namu.wiki/i/neoN1xAyZWtxwP8xB2meYp_j3qrdRhW4J2QW0JXxIIP4EleZsLjr0qczlLmFJlR_FRijyPbnbKS7BTpdx3aa5m1eFv0Yu8BVpkPYUQwAuVOxReeN1T9PPResq7X5_f9g303xnkNw5NWD30k1q0AKzQ.webp',
-  'cadillac': 'https://i.namu.wiki/i/QuhzrjEDQy6kKyOr24iOftyiHXMG-M4AiM7P2c1lhDhWx6D_JQZ3zVJcsk51ScZxkCoy3THl7iCUyQoPUI56LeLHm-E3eGlLOnYwaKjKTVfDp577GLa4IMPPwXz2AN67bnjRVOVHfkAh5z8M3wwkeQ.svg'
+
+
+const PAGE_TEAM_LOGOS = {
+  'mclaren': 'https://i.namu.wiki/i/Tk9Y-bvcjMsfBOM2uActec41oOK2-e0iUDINXhSRe-igDyq4RvAur68DzhRBuyaDkSBzsxoHpwTYg2kLdQI4O-tTGPxsm5LrvMXYyFAtyX8i7EThUqZ83eO7r9cd7wnA0HdjVmAgwhdLprKlco7x4g.svg',
+  'mercedes': 'https://i.namu.wiki/i/xNlYudSAuHf3HOVll-WToV2GuSg4RaZvUp1yqDynOX8n9aKwmRyJHDC5Un7-g2sGDOAGblhbzju0U15ADrlP5gGgpHo24nNdsG6JpSfXHDfqxO7rsxKbe6UdccDs2MAqV-BhKnu3oVl0JiLor1qcBQ.svg',
+  'red-bull': 'https://i.namu.wiki/i/VvV7dEJFaFr86erEU7mq0K5KzzywwFMuCUzCDKaYfDU8h8LTx69OglO8M23GXXnVwmZSo4N25Hz-Q1Tlac7VSQ.svg',
+  'ferrari': 'https://i.namu.wiki/i/MONRZRLGzYq1eK0nnY-KvAPp4lGpzMmdQFePYYh-8y4h-baL4mARuc5KugblZhJVh67Cka2V602BxJbzGZ6i9PWQwOoKPPVoWBRUO6XDYLOFRTFuTsNXyljVmmS3obgooVePrJAZfrJyQCVy9p9Fzw.svg',
+  'williams': 'https://i.namu.wiki/i/qEsF0dKRLzyMUa-IuZjsvU3Xzgn9EHjNehVNebt3AA1pRNFf1GIBS3qFlbpY-OKyujjgP7wDT5n3urxyX1TNZ7y05n7X28--_P-6VSUpDr_PL3lW92qLdikUpjDnhez_rb2pkRMctAnavys1bJB_BA.webp',
+  'racing-bulls': 'https://i.namu.wiki/i/VnacW1rvW7QynBB4x27L_G4PS4DvJw7ScDGHwFysrBOJDzmR2iucOZQvIHox7fSokittMT2yFZiIQcNj9-v8HMSUpXPvmDBY9kuwFqB8IWYXQXtnfYGrxO0xESKmD7tXV8Yzcq3ZlaUME5Rst3GKUQ.webp',
+  'aston-martin': 'https://i.namu.wiki/i/J_BwWUROLfnwWxkYtGJMPEfMa7SwX9Is7gfnBx9QsW168EgrhfpFOV2ioy2W5PM_8Yk79UjWKpdihvCb01qCIVVVurzuSkBPQ7Rnm-UtyWuoHRIY2m68hjAyqyOKagrce6baXCIe5OuuCMVpLon0Cg.svg',
+  'haas': 'https://i.namu.wiki/i/8K3G-XzYQ2LXUkQS5hBNU1IaGPz37tRxBhko59pbjcBqYgrfqahSxQ-xHQIAgjMJU2oIYZzR9nD0-WwQDTaF9igG1tJd53nofgtcpeo2cbaggnFMB4x5DW9nAK92BzT3admU9rdvUOnyjs8cYJtv3w.svg',
+  'audi': 'https://i.namu.wiki/i/TkZMYLbELrsVvc5mphwSusaOxBf3A4D0paJc_hyPQZDcf31_UgxSE4lEK2Hf9SDIXKxtf2nqYpOpw4FrT_UkUa-Ws7ypcHICo6pDjIIyRs4y-JZsslKh8QUmYQGUjoobJU4s3rVxlJKgTSQrhz1f6g.webp',
+  'alpine': 'https://i.namu.wiki/i/xAew5yszbtQ321huNdM4nFzpvW18RZAFGBFUMplWdYAgfgqKDeC1K38JhU4fGoTCiR-qoWrcu8twqAFcJRdXwOpdrdJeOwEgXhF7LVCxbZa9ILycOG2WUOXPY0hj7ldAYKh3XGiNYNoL4eqLbhNAbQ.svg',
+  'cadillac': 'https://i.namu.wiki/i/mqCPXhpLLvWpytc8kamGv1O2eqvGebs8vZBdzh2iCRFM04OOJzM3jkws0LLOSxlL6Rkrb46H_SQGsC_BtikASQ.svg'
 };
 
 // Render teams
@@ -101,7 +103,7 @@ function renderTeams() {
   if (!grid) return;
 
   grid.innerHTML = teams.map(team => {
-    const logoUrl = TEAM_LOGOS[team.id] || '';
+    const logoUrl = PAGE_TEAM_LOGOS[team.id] || TEAM_LOGOS[team.id] || '';
     const logoImg = logoUrl ? `<img src="${logoUrl}" alt="${team.name}" style="max-height: 90px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));" />` : '🏎️';
     return `
     <div class="card" onclick="showTeamModal('${team.id}')" style="border-top: 4px solid ${team.color}; relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">

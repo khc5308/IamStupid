@@ -137,10 +137,10 @@ async def get_all_drivers():
     return driver_info
 
 # GET | 특정 이벤트 드라이버 목록
-@app.get("/drivers/{year}/{event}", response_model=DriverListResponse)
-def get_driver_list(year: int, event: str):
+@app.get("/drivers/{year}/{event}/{session_type}", response_model=DriverListResponse)
+def get_driver_list(year: int, event: str, session_type: str):
     try:
-        session = fastf1.get_session(year, event, 'R')
+        session = fastf1.get_session(year, event, session_type)
         session.load(laps=False, telemetry=False, weather=False)
 
         driver_list = []
@@ -153,11 +153,9 @@ def get_driver_list(year: int, event: str):
                 "team": dr_info['TeamName'],
             })
 
-        # 미래 연도(예: 2026년) 등으로 인해 드라이버 목록이 비어있을 경우,
-        # 실데이터가 존재하는 2024년 시즌의 동일 이벤트 또는 바레인 GP로 대체 로드
         if len(driver_list) == 0:
             try:
-                fallback_session = fastf1.get_session(2024, event, 'R')
+                fallback_session = fastf1.get_session(2024, event, session_type)
                 fallback_session.load(laps=False, telemetry=False, weather=False)
                 for i in fallback_session.drivers:
                     dr_info = fallback_session.get_driver(i)
@@ -169,7 +167,7 @@ def get_driver_list(year: int, event: str):
                     })
             except Exception:
                 try:
-                    fallback_session = fastf1.get_session(2024, 'Bahrain Grand Prix', 'R')
+                    fallback_session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
                     fallback_session.load(laps=False, telemetry=False, weather=False)
                     for i in fallback_session.drivers:
                         dr_info = fallback_session.get_driver(i)
@@ -191,36 +189,101 @@ def get_driver_list(year: int, event: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/telemetry/{year}/{event}/{driver}")
-def get_driver_telemetry(year: int, event: str, driver: str):
+@app.get("/live-timing/{year}/{event}/{session_type}")
+def get_live_timing(year: int, event: str, session_type: str):
+    try:
+        try:
+            session = fastf1.get_session(year, event, session_type)
+            session.load(telemetry=False, weather=False, messages=False)
+        except Exception:
+            try:
+                session = fastf1.get_session(2024, event, session_type)
+                session.load(telemetry=False, weather=False, messages=False)
+            except Exception:
+                session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
+                session.load(telemetry=False, weather=False, messages=False)
+
+        laps = session.laps
+        if len(laps) == 0:
+            return {"timing": []}
+            
+        s1_fastest = laps['Sector1Time'].min()
+        s2_fastest = laps['Sector2Time'].min()
+        s3_fastest = laps['Sector3Time'].min()
+        lap_fastest = laps['LapTime'].min()
+
+        timing_data = []
+        for drv in session.drivers:
+            drv_laps = laps.pick_driver(drv)
+            if len(drv_laps) == 0: continue
+            
+            fastest = drv_laps.pick_fastest()
+            if pd.isna(fastest['LapTime']): continue
+            
+            drv_s1_best = drv_laps['Sector1Time'].min()
+            drv_s2_best = drv_laps['Sector2Time'].min()
+            drv_s3_best = drv_laps['Sector3Time'].min()
+            
+            def to_str(td):
+                if pd.isna(td): return ''
+                ts = td.total_seconds()
+                m = int(ts // 60)
+                s = ts % 60
+                if m > 0: return f'{m}:{s:06.3f}'
+                return f'{s:06.3f}'
+                
+            def get_color(val, overall, pb):
+                if pd.isna(val): return 'gray'
+                if val == overall: return 'purple'
+                if val == pb: return 'green'
+                return 'yellow'
+
+            timing_data.append({
+                'driver': fastest['Driver'],
+                'team': fastest['Team'],
+                'lap_time': to_str(fastest['LapTime']),
+                'lap_color': get_color(fastest['LapTime'], lap_fastest, fastest['LapTime']),
+                's1': to_str(fastest['Sector1Time']),
+                's1_color': get_color(fastest['Sector1Time'], s1_fastest, drv_s1_best),
+                's2': to_str(fastest['Sector2Time']),
+                's2_color': get_color(fastest['Sector2Time'], s2_fastest, drv_s2_best),
+                's3': to_str(fastest['Sector3Time']),
+                's3_color': get_color(fastest['Sector3Time'], s3_fastest, drv_s3_best),
+                'compound': str(fastest['Compound']),
+                'time_sec': fastest['LapTime'].total_seconds()
+            })
+
+        timing_data.sort(key=lambda x: x['time_sec'])
+        return {"timing": timing_data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/telemetry/{year}/{event}/{session_type}/{driver}")
+def get_driver_telemetry(year: int, event: str, session_type: str, driver: str):
     try:
         session = None
         loaded_year = year
         loaded_event = event
         
-        # Try loading specified session
         try:
-            session = fastf1.get_session(year, event, 'R')
+            session = fastf1.get_session(year, event, session_type)
             session.load(laps=True, telemetry=True, weather=False)
         except Exception:
-            # Fallback to 2024 same event
             try:
-                session = fastf1.get_session(2024, event, 'R')
+                session = fastf1.get_session(2024, event, session_type)
                 session.load(laps=True, telemetry=True, weather=False)
                 loaded_year = 2024
             except Exception:
-                # Fallback to 2024 Bahrain Grand Prix
-                session = fastf1.get_session(2024, 'Bahrain Grand Prix', 'R')
+                session = fastf1.get_session(2024, 'Bahrain Grand Prix', session_type)
                 session.load(laps=True, telemetry=True, weather=False)
                 loaded_year = 2024
                 loaded_event = 'Bahrain Grand Prix'
                 
         driver_code = driver.upper()
         
-        # Find driver in session laps
         laps = session.laps.pick_drivers(driver_code)
         if len(laps) == 0:
-            # Try to match driver abbreviation from session driver list
             matched_driver_id = None
             for d in session.drivers:
                 try:
@@ -234,7 +297,6 @@ def get_driver_telemetry(year: int, event: str, driver: str):
                 laps = session.laps.pick_drivers(matched_driver_id)
                 
         if len(laps) == 0:
-            # Fallback to session's fastest lap
             lap = session.laps.pick_fastest()
         else:
             lap = laps.pick_fastest()
@@ -246,7 +308,6 @@ def get_driver_telemetry(year: int, event: str, driver: str):
         if total_points == 0:
             raise HTTPException(status_code=404, detail="No telemetry data available")
             
-        # Downsample to ~250 points to optimize speed and payload size
         step = max(1, total_points // 250)
         sampled_telemetry = telemetry.iloc[::step]
         
@@ -271,6 +332,7 @@ def get_driver_telemetry(year: int, event: str, driver: str):
             "driver": driver_name,
             "year": loaded_year,
             "event": loaded_event,
+            "session": session_type,
             "lap_time": str(lap['LapTime']) if pd.notna(lap['LapTime']) else "N/A",
             "telemetry": points
         }
