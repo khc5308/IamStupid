@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const data = await res.json();
     faqCategories = data.faqCategories || {};
     faqs = data.faqs || [];
+    filteredFaqs = [...faqs];
   } catch (e) { console.error('Failed to load f1-faq', e); }
 
   renderFaqs();

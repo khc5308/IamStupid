@@ -1,345 +1,9 @@
-// F1 HUB — Grand Prix (Events) Page JavaScript
+import os
 
-const NATIONALITY_FLAGS = {
-  'bahrain': '🇧🇭',
-  'saudi arabia': '🇸🇦',
-  'australia': '🇦🇺',
-  'japan': '🇯🇵',
-  'china': '🇨🇳',
-  'usa': '🇺🇸',
-  'italy': '🇮🇹',
-  'monaco': '🇲🇨',
-  'canada': '🇨🇦',
-  'spain': '🇪🇸',
-  'austria': '🇦🇹',
-  'united kingdom': '🇬🇧',
-  'great britain': '🇬🇧',
-  'hungary': '🇭🇺',
-  'belgium': '🇧🇪',
-  'netherlands': '🇳🇱',
-  'azerbaijan': '🇦🇿',
-  'singapore': '🇸🇬',
-  'mexico': '🇲🇽',
-  'brazil': '🇧🇷',
-  'qatar': '🇶🇦',
-  'uae': '🇦🇪',
-  'united arab emirates': '🇦🇪'
-};
+filepath = 'js/events.js'
 
-let nationalityFlags = { ...NATIONALITY_FLAGS };
+new_js = """
 
-function getTeamColor(teamName = '') {
-    const lower = teamName.toLowerCase();
-    if (lower.includes('red bull') || lower.includes('rbr')) return '#0600ef';
-    if (lower.includes('ferrari') || lower.includes('scuderia')) return '#dc0000';
-    if (lower.includes('mclaren')) return '#ff8700';
-    if (lower.includes('mercedes')) return '#00d4be';
-    if (lower.includes('aston martin')) return '#006f62';
-    if (lower.includes('alpine')) return '#0082fa';
-    if (lower.includes('williams')) return '#00a0de';
-    if (lower.includes('sauber') || lower.includes('kick') || lower.includes('stake')) return '#52e252';
-    if (lower.includes('haas')) return '#e60000';
-    if (lower.includes('rb') || lower.includes('racing bulls') || lower.includes('vcarb')) return '#1e41ff';
-    if (lower.includes('audi')) return '#d50000';
-    if (lower.includes('cadillac')) return '#c89d3c';
-    return '#707080';
-}
-
-let currentYearSelected = new Date().getFullYear();
-let currentRoundNum = 1;
-let currentDrivers = [];
-let globalEventsList = [];
-let selectedDrivers = [];
-let raceSimData = null;
-let simulationInterval = null;
-let currentSimIndex = 0;
-let telemetryPoints1 = [];
-let telemetryPoints2 = [];
-let telemetryMeta1 = null;
-let telemetryMeta2 = null;
-let totalLaps = 0;
-
-let trackMinX = 0, trackMaxX = 0, trackMinY = 0, trackMaxY = 0;
-let trackScale = 1.0;
-let trackPaddingX = 0, trackPaddingY = 0;
-
-let globalTracksList = [];
-
-document.addEventListener('DOMContentLoaded', async function() {
-  initSelectors();
-  await loadTracksData();
-  await loadInitialDashboard();
-});
-
-async function loadTracksData() {
-  try {
-    const res = await fetch('/data/f1-data.json');
-    if (res.ok) {
-      const data = await res.json();
-      globalTracksList = data.tracks || [];
-    }
-  } catch(e) {
-    console.warn("Failed to fetch tracks data", e);
-  }
-}
-
-function getCircuitImageUrl(eventInfo) {
-  if (!eventInfo || !globalTracksList || globalTracksList.length === 0) return '';
-  
-  const locationLower = eventInfo.location.toLowerCase();
-  const countryLower = eventInfo.country.toLowerCase();
-  const nameLower = eventInfo.official_name.toLowerCase();
-  
-  let track = globalTracksList.find(t => {
-    const trackId = t.id.toLowerCase();
-    
-    if (locationLower.includes(trackId) || trackId.includes(locationLower)) return true;
-    
-    if (locationLower.includes('miami') && trackId === 'miami') return true;
-    if (locationLower.includes('montréal') && trackId === 'montreal') return true;
-    if (locationLower.includes('monte carlo') && trackId === 'monaco') return true;
-    if (locationLower.includes('barcelona') && trackId === 'catalunya') return true;
-    if (locationLower.includes('spa-francorchamps') && trackId === 'spa') return true;
-    if (locationLower.includes('budapest') && trackId === 'hungaroring') return true;
-    if (locationLower.includes('marina bay') && trackId === 'singapore') return true;
-    if (locationLower.includes('são paulo') && trackId === 'interlagos') return true;
-    if (locationLower.includes('sao paulo') && trackId === 'interlagos') return true;
-    
-    return false;
-  });
-  
-  return track ? track.image : '';
-}
-
-function initSelectors() {
-  const yearSelector = document.getElementById('year-selector');
-  const currentYear = new Date().getFullYear();
-  let options = '';
-  for (let y = currentYear; y >= 2018; y--) {
-    options += `<option value="${y}">${y}</option>`;
-  }
-  yearSelector.innerHTML = options;
-  yearSelector.addEventListener('change', onYearChange);
-  
-  const eventSelector = document.getElementById('event-selector');
-  eventSelector.addEventListener('change', onEventChange);
-}
-
-async function loadInitialDashboard() {
-  let targetRound = null;
-  try {
-    const res = await fetch('/Grand-Prix/last');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.event_name) {
-        targetRound = data.event_name;
-        currentYearSelected = new Date().getFullYear(); 
-        document.getElementById('year-selector').value = currentYearSelected;
-      }
-    }
-  } catch(e) {
-    console.warn("Failed to fetch last event", e);
-  }
-  
-  await fetchEventsForYear(currentYearSelected, targetRound);
-}
-
-async function fetchEventsForYear(year, defaultRound = null) {
-  const eventSelector = document.getElementById('event-selector');
-  const mainContent = document.getElementById('main-telemetry-content');
-  
-  mainContent.innerHTML = `
-    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-      <div style="font-size: 2rem; margin-bottom: 1rem; animation: spin 1s linear infinite;">⏳</div>
-      <p>일정 정보를 불러오고 있습니다...</p>
-    </div>
-  `;
-  
-  try {
-    const res = await fetch(`/Grand-Prix/${year}`);
-    if (!res.ok) throw new Error('API response not ok');
-    
-    const data = await res.json();
-    const events = data.events || [];
-    globalEventsList = events;
-
-    if (events.length === 0) {
-      eventSelector.innerHTML = '<option value="">일정 없음</option>';
-      mainContent.innerHTML = `
-        <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
-          <p>등록된 그랑프리 일정이 없습니다.</p>
-        </div>
-      `;
-      return;
-    }
-
-    eventSelector.innerHTML = events.map(e => `<option value="${e.round}">${e.official_name} (${e.location}, ${e.country})</option>`).join('');
-    
-    let selectedEvent = events[0];
-    if (defaultRound) {
-      // Find event by official name if passed from home page, otherwise fallback
-      selectedEvent = events.find(e => e.official_name === defaultRound) || events[0];
-      eventSelector.value = selectedEvent.round;
-      currentRoundNum = selectedEvent.round;
-    } else {
-      const today = new Date();
-      for (let i = events.length - 1; i >= 0; i--) {
-        if (events[i].date !== 'N/A' && new Date(events[i].date) < today) {
-          selectedEvent = events[i];
-          break;
-        }
-      }
-      if (selectedEvent) {
-        eventSelector.value = selectedEvent.round;
-        currentRoundNum = selectedEvent.round;
-      }
-    }
-    
-    const safeOfficialName = selectedEvent.official_name.replace(/'/g, "\\'");
-    const safeLocationInfo = `${selectedEvent.location.replace(/'/g, "\\'")}, ${selectedEvent.country.replace(/'/g, "\\'")}`;
-    
-    loadTelemetryDashboard(safeOfficialName, safeLocationInfo, currentRoundNum);
-  } catch (e) {
-    console.error('Failed to load Grand Prix events', e);
-    mainContent.innerHTML = `
-      <div style="text-align: center; padding: 3rem; color: var(--accent);">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-        <p>일정을 불러오는 데 실패했습니다.</p>
-      </div>
-    `;
-  }
-}
-
-async function onYearChange(e) {
-  currentYearSelected = document.getElementById('year-selector').value;
-  await fetchEventsForYear(currentYearSelected);
-}
-
-async function onEventChange(e) {
-  currentRoundNum = document.getElementById('event-selector').value;
-  const sel = document.getElementById('event-selector');
-  const text = sel.options[sel.selectedIndex].text;
-  
-  // Try to parse the name and location, it's rough but functional. Alternatively we can just pass the text.
-  loadTelemetryDashboard(text, "해당 이벤트", currentRoundNum);
-}
-
-console.log('Grand Prix events page JS loaded successfully');
-
-window.loadTelemetryDashboard = function(gpName, gpInfo, roundNum) {
-  currentRoundNum = roundNum;
-  
-  if (simulationInterval) {
-    clearInterval(simulationInterval);
-    simulationInterval = null;
-  }
-  
-  const contentContainer = document.getElementById('main-telemetry-content');
-  contentContainer.innerHTML = `
-    <!-- Top Controller Row -->
-    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">세션:</span>
-        <select id="telemetry-session" style="background: #101026; color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 0.35rem 0.75rem; border-radius: 4px; font-family: 'Exo 2'; font-weight: 600; outline: none; cursor: pointer;" onchange="onSessionChange()">
-          <option value="R">Race</option>
-          <option value="S">Sprint</option>
-          <option value="SQ">Sprint Shootout</option>
-          <option value="Q">Qualifying</option>
-          <option value="FP3">Practice 3</option>
-          <option value="FP2">Practice 2</option>
-          <option value="FP1">Practice 1</option>
-        </select>
-      </div>
-    </div>
-    
-    <!-- 전체 화면 로더 -->
-    <div id="telemetry-full-loader" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 0; color: var(--text-secondary);">
-      <div style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-      <h3 style="color: #fff; font-family: 'Exo 2'; margin-bottom: 0.5rem;">데이터 로딩 중</h3>
-      <p style="font-size: 0.9rem;">사후 분석 데이터를 불러오고 있습니다...</p>
-    </div>
-
-    <div id="telemetry-data-container" style="display: none;">
-      <!-- 정적 트랙 트래커 -->
-      <div class="telemetry-panel" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem;">
-        <h3 style="font-family: 'Exo 2', sans-serif; font-weight:700; font-size:1rem; color:#fff; margin:0 0 1rem 0; display:flex; align-items:center; gap:0.5rem; justify-content: center;">
-          <span style="color:#00a2ff; font-size:1.2rem;">🗺️</span> 그랑프리 서킷 레이아웃
-        </h3>
-        
-        <div style="flex-grow:1; display:flex; align-items:center; justify-content:center; position:relative; min-height: 300px;">
-          <img id="static-circuit-image" src="" alt="Circuit Layout" style="max-width: 100%; max-height: 400px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));">
-        </div>
-      </div>
-    </div>
-  `;
-  
-  loadSessionDrivers(roundNum);
-};
-
-window.onSessionChange = async function() {
-  await loadSessionDrivers(currentRoundNum);
-};
-
-async function loadSessionDrivers(roundNum) {
-  const container = document.getElementById('telemetry-drivers-container');
-  const dataContainer = document.getElementById('telemetry-data-container');
-  const fullLoader = document.getElementById('telemetry-full-loader');
-  
-  if (dataContainer && fullLoader) {
-    dataContainer.style.display = 'none';
-    fullLoader.style.display = 'flex';
-  }
-  
-  const analysisSec = document.getElementById('post-race-analysis-section');
-  if (analysisSec) {
-    analysisSec.style.display = 'none';
-  }
-  
-  try {
-    const res = await fetch(`/drivers/${currentYearSelected}/${encodeURIComponent(roundNum)}/${document.getElementById('telemetry-session').value}`);
-    if (res.ok) {
-        const data = await res.json();
-        currentDrivers = data.drivers || [];
-        selectedDrivers = currentDrivers.slice(0, 3).map(d => d.abbreviation);
-    }
-    
-    // Set static track image from existing events JSON
-    const eventInfo = globalEventsList.find(e => e.round.toString() === currentRoundNum.toString());
-    const imgEl = document.getElementById('static-circuit-image');
-    if (imgEl) {
-        if (eventInfo) {
-            try {
-                imgEl.src = getCircuitImageUrl(eventInfo) || '';
-            } catch(e) {
-                console.warn("Failed to set circuit image", e);
-                imgEl.src = '';
-            }
-        } else {
-            imgEl.src = '';
-        }
-    }
-    
-    // Fetch base simulation data just to get lap times for the pace chart
-    const driversStr = currentDrivers.map(d => d.abbreviation).join(',');
-    const simRes = await fetch(`/race-simulation/${currentYearSelected}/${encodeURIComponent(roundNum)}/${document.getElementById('telemetry-session').value}?drivers=${driversStr}`);
-    if (simRes.ok) {
-        raceSimData = await simRes.json();
-    }
-    
-    // Load Analysis
-    await loadAnalysisData();
-    
-    if (dataContainer && fullLoader) {
-      fullLoader.style.display = 'none';
-      dataContainer.style.display = 'block';
-    }
-    
-  } catch (err) {
-    console.error('Error:', err);
-    if (fullLoader) fullLoader.style.display = 'none';
-  }
-}
 // ==========================================
 // Post-Race Analysis Dashboard Logic
 // ==========================================
@@ -379,11 +43,9 @@ function switchAnalysisTab(tabId) {
 async function loadAnalysisData() {
   const sessionType = document.getElementById('telemetry-session').value;
   const loader = document.getElementById('analysis-loader');
-  const tabsHeader = document.getElementById('analysis-tabs-header');
   
   try {
     loader.style.display = 'flex';
-    if (tabsHeader) tabsHeader.style.display = 'none';
     
     // Show section
     document.getElementById('post-race-analysis-section').style.display = 'block';
@@ -403,7 +65,6 @@ async function loadAnalysisData() {
     console.error('Error loading analysis data:', err);
   } finally {
     loader.style.display = 'none';
-    if (tabsHeader) tabsHeader.style.display = 'flex';
   }
 }
 
@@ -567,29 +228,15 @@ function renderTyreStrategyChart() {
   destroyChart('tyre');
   
   const drivers = Object.keys(raceSimData.laps);
-  // Sort drivers based on finishing position from results table, or fallback to custom sort
-  if (analysisData && analysisData.results && analysisData.results.length > 0) {
-      const resultsMap = {};
-      analysisData.results.forEach((r, index) => {
-          if (r.driver) {
-              resultsMap[r.driver.toUpperCase()] = index;
-          }
-      });
-      drivers.sort((a, b) => {
-          const posA = resultsMap[a.toUpperCase()] !== undefined ? resultsMap[a.toUpperCase()] : 999;
-          const posB = resultsMap[b.toUpperCase()] !== undefined ? resultsMap[b.toUpperCase()] : 999;
-          return posA - posB;
-      });
-  } else {
-      drivers.sort((a,b) => {
-          const lapsA = raceSimData.laps[a];
-          const lapsB = raceSimData.laps[b];
-          if (!lapsA.length) return 1;
-          if (!lapsB.length) return -1;
-          if (lapsA.length !== lapsB.length) return lapsB.length - lapsA.length;
-          return lapsA[lapsA.length-1].time - lapsB[lapsB.length-1].time;
-      });
-  }
+  // Sort drivers by final lap count, then total time
+  drivers.sort((a,b) => {
+      const lapsA = raceSimData.laps[a];
+      const lapsB = raceSimData.laps[b];
+      if (!lapsA.length) return 1;
+      if (!lapsB.length) return -1;
+      if (lapsA.length !== lapsB.length) return lapsB.length - lapsA.length;
+      return lapsA[lapsA.length-1].time - lapsB[lapsB.length-1].time;
+  });
   
   const labels = [];
   const datasetsMap = {
@@ -599,41 +246,28 @@ function renderTyreStrategyChart() {
   // Format data for floating bar chart (x: [startLap, endLap])
   drivers.forEach((d, idx) => {
       labels.push(d);
-      // Ensure laps are sorted chronologically by lap number
-      const laps = [...raceSimData.laps[d]].sort((a, b) => a.lap_num - b.lap_num);
+      const laps = raceSimData.laps[d];
       
       let currentStint = null;
       
-      const getNormalizedCompound = (compStr) => {
-          if (!compStr) return 'UNKNOWN';
-          const upper = compStr.toUpperCase().trim();
-          if (upper.includes('SOFT')) return 'SOFT';
-          if (upper.includes('MEDIUM')) return 'MEDIUM';
-          if (upper.includes('HARD')) return 'HARD';
-          if (upper.includes('INTER')) return 'INTERMEDIATE';
-          if (upper.includes('WET')) return 'WET';
-          return 'UNKNOWN';
-      };
-      
       laps.forEach(l => {
-          const normComp = getNormalizedCompound(l.compound);
           if (!currentStint) {
-              currentStint = { comp: normComp, start: l.lap_num - 1, end: l.lap_num };
-          } else if (currentStint.comp === normComp) {
+              currentStint = { comp: l.compound, start: l.lap_num - 1, end: l.lap_num };
+          } else if (currentStint.comp === l.compound) {
               currentStint.end = l.lap_num;
           } else {
               // push old stint
               let comp = currentStint.comp;
               if (!datasetsMap[comp]) comp = 'UNKNOWN';
-              datasetsMap[comp].push({ x: [currentStint.start, currentStint.end], y: d });
+              datasetsMap[comp].push({ x: [currentStint.start, currentStint.end], y: idx });
               // start new
-              currentStint = { comp: normComp, start: l.lap_num - 1, end: l.lap_num };
+              currentStint = { comp: l.compound, start: l.lap_num - 1, end: l.lap_num };
           }
       });
       if (currentStint) {
           let comp = currentStint.comp;
           if (!datasetsMap[comp]) comp = 'UNKNOWN';
-          datasetsMap[comp].push({ x: [currentStint.start, currentStint.end], y: d });
+          datasetsMap[comp].push({ x: [currentStint.start, currentStint.end], y: idx });
       }
   });
   
@@ -653,36 +287,6 @@ function renderTyreStrategyChart() {
       barPercentage: 0.6
   }));
   
-  const stintLabelsPlugin = {
-      id: 'stintLabels',
-      afterDatasetsDraw(chart) {
-          const { ctx } = chart;
-          ctx.save();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 9px "Exo 2", sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'bottom';
-
-          chart.data.datasets.forEach((dataset, datasetIndex) => {
-              const meta = chart.getDatasetMeta(datasetIndex);
-              if (meta.hidden) return;
-              
-              meta.data.forEach((element, index) => {
-                  const rawVal = dataset.data[index];
-                  if (!rawVal || !rawVal.x) return;
-                  
-                  const endLap = rawVal.x[1];
-                  const xPos = element.x;
-                  const barHeight = element.height || 15;
-                  const yPos = element.y - (barHeight / 2) - 2;
-                  
-                  ctx.fillText(endLap.toString(), xPos, yPos);
-              });
-          });
-          ctx.restore();
-      }
-  };
-
   analysisCharts['tyre'] = new Chart(canvas, {
       type: 'bar',
       data: { labels, datasets },
@@ -718,8 +322,7 @@ function renderTyreStrategyChart() {
                   ticks: { color: '#fff', font: { weight: 'bold' } }
               }
           }
-      },
-      plugins: [stintLabelsPlugin]
+      }
   });
 }
 
@@ -917,4 +520,11 @@ async function loadTelemetryCharts() {
       loader.style.display = 'none';
   }
 }
+
+"""
+
+with open(filepath, 'a', encoding='utf-8') as f:
+    f.write(new_js)
+
+print("Patch applied to events.js")
 

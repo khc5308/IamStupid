@@ -80,17 +80,31 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 const PAGE_TEAM_LOGOS = {
-  'mclaren': 'https://i.namu.wiki/i/Tk9Y-bvcjMsfBOM2uActec41oOK2-e0iUDINXhSRe-igDyq4RvAur68DzhRBuyaDkSBzsxoHpwTYg2kLdQI4O-tTGPxsm5LrvMXYyFAtyX8i7EThUqZ83eO7r9cd7wnA0HdjVmAgwhdLprKlco7x4g.svg',
-  'mercedes': 'https://i.namu.wiki/i/xNlYudSAuHf3HOVll-WToV2GuSg4RaZvUp1yqDynOX8n9aKwmRyJHDC5Un7-g2sGDOAGblhbzju0U15ADrlP5gGgpHo24nNdsG6JpSfXHDfqxO7rsxKbe6UdccDs2MAqV-BhKnu3oVl0JiLor1qcBQ.svg',
-  'red-bull': 'https://i.namu.wiki/i/VvV7dEJFaFr86erEU7mq0K5KzzywwFMuCUzCDKaYfDU8h8LTx69OglO8M23GXXnVwmZSo4N25Hz-Q1Tlac7VSQ.svg',
-  'ferrari': 'https://i.namu.wiki/i/MONRZRLGzYq1eK0nnY-KvAPp4lGpzMmdQFePYYh-8y4h-baL4mARuc5KugblZhJVh67Cka2V602BxJbzGZ6i9PWQwOoKPPVoWBRUO6XDYLOFRTFuTsNXyljVmmS3obgooVePrJAZfrJyQCVy9p9Fzw.svg',
-  'williams': 'https://i.namu.wiki/i/qEsF0dKRLzyMUa-IuZjsvU3Xzgn9EHjNehVNebt3AA1pRNFf1GIBS3qFlbpY-OKyujjgP7wDT5n3urxyX1TNZ7y05n7X28--_P-6VSUpDr_PL3lW92qLdikUpjDnhez_rb2pkRMctAnavys1bJB_BA.webp',
-  'racing-bulls': 'https://i.namu.wiki/i/VnacW1rvW7QynBB4x27L_G4PS4DvJw7ScDGHwFysrBOJDzmR2iucOZQvIHox7fSokittMT2yFZiIQcNj9-v8HMSUpXPvmDBY9kuwFqB8IWYXQXtnfYGrxO0xESKmD7tXV8Yzcq3ZlaUME5Rst3GKUQ.webp',
-  'aston-martin': 'https://i.namu.wiki/i/J_BwWUROLfnwWxkYtGJMPEfMa7SwX9Is7gfnBx9QsW168EgrhfpFOV2ioy2W5PM_8Yk79UjWKpdihvCb01qCIVVVurzuSkBPQ7Rnm-UtyWuoHRIY2m68hjAyqyOKagrce6baXCIe5OuuCMVpLon0Cg.svg',
-  'haas': 'https://i.namu.wiki/i/8K3G-XzYQ2LXUkQS5hBNU1IaGPz37tRxBhko59pbjcBqYgrfqahSxQ-xHQIAgjMJU2oIYZzR9nD0-WwQDTaF9igG1tJd53nofgtcpeo2cbaggnFMB4x5DW9nAK92BzT3admU9rdvUOnyjs8cYJtv3w.svg',
-  'audi': 'https://i.namu.wiki/i/TkZMYLbELrsVvc5mphwSusaOxBf3A4D0paJc_hyPQZDcf31_UgxSE4lEK2Hf9SDIXKxtf2nqYpOpw4FrT_UkUa-Ws7ypcHICo6pDjIIyRs4y-JZsslKh8QUmYQGUjoobJU4s3rVxlJKgTSQrhz1f6g.webp',
-  'alpine': 'https://i.namu.wiki/i/xAew5yszbtQ321huNdM4nFzpvW18RZAFGBFUMplWdYAgfgqKDeC1K38JhU4fGoTCiR-qoWrcu8twqAFcJRdXwOpdrdJeOwEgXhF7LVCxbZa9ILycOG2WUOXPY0hj7ldAYKh3XGiNYNoL4eqLbhNAbQ.svg',
-  'cadillac': 'https://i.namu.wiki/i/37e05wDXlpbcAvWJl1kuqs60MY6P6nS8I5kTSM0H-99GDB6tPvKVxpd47pjLr7_2LiFPIIThILz6xmv0xSs8Tw.svg'
+  'mclaren': 'https://www.mclaren.com/_next/static/media/McLaren-Racing-dark.8f692fa0.svg',
+  'mercedes': 'https://images.ctfassets.net/1fvlg6xqnm65/2yqkq7wdz2V0Bwk6Co1GX/fb0be6de7e0ff748fb4b3836024a49d7/MF1_team_logo_Registered-Negative_full_colour.png?w=256&q=75&fm=webp',
+  'red-bull': 'https://www.redbullracing.com/_next/static/media/ORBR_logo_2026.4059dac5.svg',
+  'ferrari': 'https://cdn.ferrari.com/cms/network/media/img/resize/6957d6740955ca006a145f63-scuderia-ferrari-white?',
+  'williams': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Atlassian_Williams_F1_Team_logo.svg/1920px-Atlassian_Williams_F1_Team_logo.svg.png',
+  'racing-bulls': 'https://www.visacashapprb.com/_next/static/media/visacashapprb-logo.15454b50.png',
+  'aston-martin': 'https://assets.astonmartinf1.com/public/cms/29S4paAKB9c3x7bCuLWApv/ecd8fe87c0f069d3f33ad1e5a66d7760/2025_AMF1_Team__logo_wide_white_RGB_BG.svg',
+  'haas': 'https://www.haasf1team.com/themes/haas/assets/logos/new/TGRHF1_Team_Logo_Full_Vert.svg',
+  'audi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Audif1.com_logo17_%28cropped%29.svg/250px-Audif1.com_logo17_%28cropped%29.svg.png',
+  'alpine': 'https://alpinef1-assets.dropt.app/05_BWTA_F1_TEAM_MONO_REVERSE_7da30eb6cd.svg',
+  'cadillac': 'https://upload.wikimedia.org/wikipedia/en/thumb/b/bc/Cadillac_Formula_1_Team_Logo_%282025%29.svg/500px-Cadillac_Formula_1_Team_Logo_%282025%29.svg.png?_=20250506125831'
+};
+
+const OFFICIAL_TEAM_NAMES = {
+  'mercedes': 'Mercedes-AMG Petronas Formula One Team',
+  'ferrari': 'Scuderia Ferrari',
+  'mclaren': 'McLaren Formula 1 Team',
+  'red-bull': 'Oracle Red Bull Racing',
+  'alpine': 'BWT Alpine F1 Team',
+  'racing-bulls': 'Visa Cash App RB Formula One Team',
+  'haas': 'MoneyGram Haas F1 Team',
+  'williams': 'Williams Racing',
+  'audi': 'Audi F1 Team',
+  'cadillac': 'Cadillac F1 Team',
+  'aston-martin': 'Aston Martin Aramco Formula One Team'
 };
 
 // Render teams
@@ -100,11 +114,14 @@ function renderTeams() {
 
   grid.innerHTML = teams.map(team => {
     const logoUrl = PAGE_TEAM_LOGOS[team.id] || TEAM_LOGOS[team.id] || '';
-    const logoImg = logoUrl ? `<img src="${logoUrl}" alt="${team.name}" style="max-height: 90px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));" />` : '🏎️';
+    const logoImg = logoUrl ? `<img src="${logoUrl}" alt="${team.name}" style="max-height: 90px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); position: relative; z-index: 2;" />` : '🏎️';
     return `
     <div class="card" onclick="showTeamModal('${team.id}')" style="border-top: 4px solid ${team.color}; relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
       <div>
-        <div style="height: 200px; background: linear-gradient(135deg, ${team.color}15 0%, ${team.color}05 100%); display: flex; align-items: center; justify-content: center; margin: -1.25rem -1.25rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); position: relative; overflow: hidden;">
+        <div style="height: 200px; background: #0c0c12; display: flex; align-items: center; justify-content: center; margin: -1.25rem -1.25rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;">
+          <!-- 은은한 화이트 & 팀 컬러 글로우 배경 -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; height: 160px; background: ${team.color}; filter: blur(50px); opacity: 0.3; z-index: 1;"></div>
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; background: #ffffff; filter: blur(30px); opacity: 0.25; z-index: 1;"></div>
           ${logoImg}
         </div>
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
@@ -261,6 +278,11 @@ function showTeamModal(teamId) {
     </style>
 
     <!-- 핵심 요약 정보 히어로 영역 -->
+    <div style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 6px; border-left: 3px solid ${team.color};">
+      <div style="color: #a0a0b0; font-family: 'Exo 2', sans-serif; font-size: 0.75rem; margin: 0 0 0.25rem 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Official Team Name</div>
+      <div style="font-size: 1.15rem; font-weight: 700; color: #fff; font-family: 'Exo 2', sans-serif;">${OFFICIAL_TEAM_NAMES[team.id] || team.name}</div>
+    </div>
+
     <h3 class="detail-section-title"><span class="badge-indicator"></span> 팀 커리어 히어로</h3>
     <div class="premium-grid">
         <div class="premium-stat-card">

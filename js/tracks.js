@@ -7,7 +7,6 @@ let raceEvents = [];
 let ALL_DRIVERS = [];
 let drivers = [];
 
-
 let filteredTracks = [...tracks];
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -37,11 +36,14 @@ function renderTracks() {
     return;
   }
 
-  grid.innerHTML = filteredTracks.map(track => `
+  grid.innerHTML = filteredTracks.map(track => {
+    return `
     <div class="card" onclick="showTrackModal('${track.id}')" style="display: flex; flex-direction: column; justify-content: space-between;">
       <div>
-        <div style="height: 160px; background: #0f0f1a; display: flex; align-items: center; justify-content: center; margin: -1.25rem -1.25rem 1rem; border-bottom: 1px solid var(--border-color); overflow: hidden; padding: 0.75rem;">
-          ${track.image ? `<img src="${track.image}" alt="${track.name}" class="track-card-img" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 8px rgba(255,255,255,0.12)); transition: transform 0.3s ease;">` : `<div style="font-size: 3rem; opacity: 0.3;">🏁</div>`}
+        <div style="height: 160px; background: #0f0f1a; display: flex; align-items: center; justify-content: center; margin: -1.25rem -1.25rem 1rem; border-bottom: 1px solid var(--border-color); overflow: hidden; position: relative;">
+          <!-- 은은한 빛 효과 -->
+          <div style="position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.1); filter: blur(30px); border-radius: 50%;"></div>
+          <img src="${track.image}" alt="${track.name}" class="track-card-img" style="max-width: 85%; max-height: 85%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); transition: transform 0.3s ease; position: relative; z-index: 1;">
         </div>
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
           <div>
@@ -62,7 +64,8 @@ function renderTracks() {
       </div>
       ${track.description ? `<p style="font-size: 0.875rem; margin: 0; color: #b0b0c0; line-height: 1.4;">${track.description}</p>` : ''}
     </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // Setup filters
@@ -96,8 +99,8 @@ function showTrackModal(trackId) {
 
   const content = `
     ${track.image ? `
-    <div style="width: 100%; height: 240px; background: #0f0f1a; display: flex; align-items: center; justify-content: center; border-radius: 6px; overflow: hidden; margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border-color);">
-      <img src="${track.image}" alt="${track.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,255,255,0.15));">
+    <div style="width: 100%; height: 240px; background: #0f0f1a; display: flex; align-items: center; justify-content: center; border-radius: 6px; overflow: hidden; margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border-color); cursor: pointer;" onclick="openFullscreenImage('${track.image}')" title="크게 보기">
+      <img src="${track.image}" alt="${track.name}" style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,255,255,0.15)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
     </div>
     ` : ''}
     <div class="modal-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem;">
@@ -131,3 +134,31 @@ function showTrackModal(trackId) {
 }
 
 console.log('Tracks page JS loaded');
+
+// Fullscreen image viewer
+function openFullscreenImage(imgSrc) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '99999';
+  overlay.style.cursor = 'zoom-out';
+  overlay.onclick = () => document.body.removeChild(overlay);
+  
+  const img = document.createElement('img');
+  img.src = imgSrc;
+  img.style.maxWidth = '90%';
+  img.style.maxHeight = '90%';
+  img.style.objectFit = 'contain';
+  img.style.borderRadius = '8px';
+  img.style.boxShadow = '0 0 30px rgba(0,0,0,0.5)';
+  
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}

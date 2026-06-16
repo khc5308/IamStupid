@@ -121,7 +121,7 @@ async function loadDashboardData() {
     // 2. Fetch Grand Prix schedule events dynamically
     try {
       const currentYear = new Date().getFullYear();
-      const gpRes = await fetch(`/events/${currentYear}`);
+      const gpRes = await fetch(`/Grand-Prix/${currentYear}`);
       if (gpRes.ok) {
         const gpData = await gpRes.json();
         raceEvents = gpData.events || [];

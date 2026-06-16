@@ -501,7 +501,7 @@ async function updateDriverLayout() {
         NATIONALITY_FLAGS = {};
         DRIVER_IMAGES = {};
 
-        const eventRes = await fetch('/events/last');
+        const eventRes = await fetch('/Grand-Prix/last');
         if (!eventRes.ok) throw new Error('이벤트 정보를 가져오는데 실패했습니다.');
         const eventData = await eventRes.json();
 
