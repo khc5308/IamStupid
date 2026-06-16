@@ -2,126 +2,223 @@
   "max_verstappen": {
     "championships": 4,
     "highest_champ": 1,
-    "grand_slams": 5
+    "grand_slams": 5,
+    "hat_tricks": 14
   },
   "leclerc": {
     "championships": 0,
     "highest_champ": 2,
-    "grand_slams": 1
+    "grand_slams": 1,
+    "hat_tricks": 2
   },
   "hamilton": {
     "championships": 7,
     "highest_champ": 1,
-    "grand_slams": 6
+    "grand_slams": 6,
+    "hat_tricks": 19
   },
   "norris": {
-    "championships": 0,
-    "highest_champ": 2,
-    "grand_slams": 0
+    "championships": 1,
+    "highest_champ": 1,
+    "grand_slams": 0,
+    "hat_tricks": 3
   },
   "piastri": {
     "championships": 0,
-    "highest_champ": 4,
-    "grand_slams": 0
+    "highest_champ": 3,
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "alonso": {
     "championships": 2,
     "highest_champ": 1,
-    "grand_slams": 1
+    "grand_slams": 1,
+    "hat_tricks": 5
   },
   "sainz": {
     "championships": 0,
     "highest_champ": 5,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "perez": {
     "championships": 0,
     "highest_champ": 2,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "russell": {
     "championships": 0,
     "highest_champ": 4,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "gasly": {
     "championships": 0,
     "highest_champ": 7,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "stroll": {
     "championships": 0,
     "highest_champ": 10,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "tsunoda": {
     "championships": 0,
     "highest_champ": 11,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "albon": {
     "championships": 0,
     "highest_champ": 7,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "hulkenberg": {
     "championships": 0,
     "highest_champ": 7,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "bottas": {
     "championships": 0,
     "highest_champ": 2,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 2
   },
   "zhou": {
     "championships": 0,
     "highest_champ": 18,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "magnussen": {
     "championships": 0,
     "highest_champ": 9,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "ricciardo": {
     "championships": 0,
     "highest_champ": 3,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "ocon": {
     "championships": 0,
     "highest_champ": 8,
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "antonelli": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "bearman": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "colapinto": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "doohan": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "lawson": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
   },
   "bortoleto": {
     "championships": 0,
     "highest_champ": "N/A",
-    "grand_slams": 0
+    "grand_slams": 0,
+    "hat_tricks": 0
+  },
+  "michael_schumacher": {
+    "championships": 7,
+    "highest_champ": 1,
+    "grand_slams": 5,
+    "hat_tricks": 22
+  },
+  "prost": {
+    "championships": 4,
+    "highest_champ": 1,
+    "grand_slams": 0,
+    "hat_tricks": 8
+  },
+  "senna": {
+    "championships": 3,
+    "highest_champ": 1,
+    "grand_slams": 4,
+    "hat_tricks": 7
+  },
+  "vettel": {
+    "championships": 4,
+    "highest_champ": 1,
+    "grand_slams": 4,
+    "hat_tricks": 8
+  },
+  "clark": {
+    "championships": 2,
+    "highest_champ": 1,
+    "grand_slams": 8,
+    "hat_tricks": 11
+  },
+  "fangio": {
+    "championships": 5,
+    "highest_champ": 1,
+    "grand_slams": 2,
+    "hat_tricks": 9
+  },
+  "ascari": {
+    "championships": 2,
+    "highest_champ": 1,
+    "grand_slams": 5,
+    "hat_tricks": 7
+  },
+  "stewart": {
+    "championships": 3,
+    "highest_champ": 1,
+    "grand_slams": 0,
+    "hat_tricks": 4
+  },
+  "lauda": {
+    "championships": 3,
+    "highest_champ": 1,
+    "grand_slams": 1,
+    "hat_tricks": 3
+  },
+  "raikkonen": {
+    "championships": 1,
+    "highest_champ": 1,
+    "grand_slams": 0,
+    "hat_tricks": 2
+  },
+  "hakkinen": {
+    "championships": 2,
+    "highest_champ": 1,
+    "grand_slams": 0,
+    "hat_tricks": 5
+  },
+  "mansell": {
+    "championships": 1,
+    "highest_champ": 1,
+    "grand_slams": 2,
+    "hat_tricks": 5
   }
 }

@@ -191,7 +191,7 @@ def get_live_timing(year: int, event: str, session_type: str):
             if len(drv_laps) == 0: continue
             
             fastest = drv_laps.pick_fastest()
-            if pd.isna(fastest['LapTime']): continue
+            if fastest is None or (isinstance(fastest, pd.Series) and fastest.empty) or pd.isna(fastest.get('LapTime')): continue
             
             drv_s1_best = drv_laps['Sector1Time'].min()
             drv_s2_best = drv_laps['Sector2Time'].min()
@@ -268,8 +268,22 @@ def get_driver_telemetry(year: int, event: str, session_type: str, driver: str):
             lap = laps.pick_fastest()
             
         driver_name = lap['Driver']
-        telemetry = lap.get_telemetry()
-        
+        try:
+            telemetry = lap.get_telemetry()
+        except Exception:
+            car_data = lap.get_car_data()
+            if len(car_data) == 0:
+                raise HTTPException(status_code=404, detail="No telemetry data available")
+            speed_mps = car_data['Speed'] / 3.6
+            time_sec = car_data['Time'].dt.total_seconds()
+            time_diffs = time_sec.diff().fillna(0.0)
+            distance = (speed_mps * time_diffs).cumsum()
+            telemetry = car_data.copy()
+            telemetry['Distance'] = distance
+            telemetry['X'] = 0.0
+            telemetry['Y'] = 0.0
+            telemetry['Z'] = 0.0
+            
         total_points = len(telemetry)
         if total_points == 0:
             raise HTTPException(status_code=404, detail="No telemetry data available")
@@ -356,8 +370,24 @@ def get_race_simulation(year: int, event: str, session_type: str, drivers: str =
         # 1. Track map data (using fastest lap telemetry)
         fastest_lap = session.laps.pick_fastest()
         track_data = []
+        track_tel = None
         if not pd.isna(fastest_lap['Time']):
-            track_tel = fastest_lap.get_telemetry()
+            try:
+                track_tel = fastest_lap.get_telemetry()
+            except Exception:
+                pass
+        
+        # Fallback to any lap that has valid telemetry/positions
+        if track_tel is None or len(track_tel) == 0:
+            for _, lap in session.laps.pick_quicklaps().iterrows():
+                try:
+                    track_tel = lap.get_telemetry()
+                    if track_tel is not None and len(track_tel) > 0:
+                        break
+                except Exception:
+                    continue
+                    
+        if track_tel is not None and len(track_tel) > 0:
             track_step = max(1, len(track_tel) // 250)
             for _, row in track_tel.iloc[::track_step].iterrows():
                 track_data.append({
@@ -405,7 +435,9 @@ def get_race_simulation(year: int, event: str, session_type: str, drivers: str =
                     "s3": to_str(lap['Sector3Time']),
                     "s3_sec": lap['Sector3Time'].total_seconds() if pd.notna(lap['Sector3Time']) else 0,
                     "compound": str(lap['Compound']) if pd.notna(lap['Compound']) else "N/A",
-                    "tyre_life": float(lap['TyreLife']) if pd.notna(lap['TyreLife']) else 0
+                    "tyre_life": float(lap['TyreLife']) if pd.notna(lap['TyreLife']) else 0,
+                    "pit_in": lap['PitInTime'].total_seconds() if pd.notna(lap['PitInTime']) else None,
+                    "pit_out": lap['PitOutTime'].total_seconds() if pd.notna(lap['PitOutTime']) else None
                 })
             abbr = session.get_driver(drv)['Abbreviation']
             laps_dict[abbr] = drv_info
@@ -445,7 +477,19 @@ def get_telemetry_lap(year: int, event: str, session_type: str, driver: str, lap
             raise HTTPException(status_code=404, detail="해당 랩의 데이터를 찾을 수 없습니다.")
             
         lap = lap.iloc[0]
-        telemetry = lap.get_telemetry()
+        try:
+            telemetry = lap.get_telemetry()
+        except Exception:
+            car_data = lap.get_car_data()
+            if len(car_data) == 0:
+                raise HTTPException(status_code=404, detail="No telemetry data available")
+            speed_mps = car_data['Speed'] / 3.6
+            time_sec = car_data['Time'].dt.total_seconds()
+            time_diffs = time_sec.diff().fillna(0.0)
+            distance = (speed_mps * time_diffs).cumsum()
+            telemetry = car_data.copy()
+            telemetry['Distance'] = distance
+            
         if len(telemetry) == 0:
             raise HTTPException(status_code=404, detail="No telemetry data available")
             
@@ -659,7 +703,7 @@ async def get_driver_stats(driver_id: str):
                 # fastest lap
                 fl = res.get("FastestLap", {})
                 fl_rank = fl.get("rank", "")
-                has_fl = (fl_rank == "1")
+                has_fl = (str(fl_rank).strip() == "1")
                 if has_fl:
                     fastest_laps += 1
                 
@@ -698,7 +742,12 @@ async def get_driver_stats(driver_id: str):
                 if pos == 1: sprint_wins += 1
                 if grid == 1: sprint_poles += 1
 
-        manual = MANUAL_STATS.get(driver_id, {"championships": "N/A", "highest_champ": "N/A", "grand_slams": "N/A"})
+        manual = MANUAL_STATS.get(driver_id, {"championships": "N/A", "highest_champ": "N/A", "grand_slams": "N/A", "hat_tricks": "N/A"})
+        
+        # Use manual hat_tricks if specified, otherwise fallback to calculated
+        final_hat_tricks = manual.get("hat_tricks", "N/A")
+        if final_hat_tricks == "N/A":
+            final_hat_tricks = hat_tricks
         
         stats = {
             "entries": entries,
@@ -710,7 +759,7 @@ async def get_driver_stats(driver_id: str):
             "sprint_wins": sprint_wins,
             "sprint_poles": sprint_poles,
             "pole_to_win": pole_to_win,
-            "hat_tricks": hat_tricks,
+            "hat_tricks": final_hat_tricks,
             "grand_slams": manual["grand_slams"],
             "points": int(points) if points.is_integer() else round(points, 1),
             "first_race": first_race or "N/A",

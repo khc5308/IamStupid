@@ -37,6 +37,7 @@ let telemetryPoints1 = [];
 let telemetryPoints2 = [];
 let telemetryMeta1 = null;
 let telemetryMeta2 = null;
+let totalLaps = 0;
 
 let trackMinX = 0, trackMaxX = 0, trackMinY = 0, trackMaxY = 0;
 let trackScale = 1.0;
@@ -507,7 +508,10 @@ window.loadTelemetryDashboard = function(gpName, gpInfo, roundNum) {
     <div class="telemetry-controller">
       <button id="sim-play-btn" class="play-btn" onclick="toggleSimulation()" disabled>▶</button>
       <input type="range" id="sim-time-slider" class="sim-slider" min="0" max="100" value="0" oninput="onSliderMove(this.value)" disabled>
-      <div id="sim-time-display" class="time-display">00:00.000</div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; min-width: 140px;">
+        <div id="sim-lap-display" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.8rem; color: var(--accent); margin-bottom: 0.15rem; text-shadow: 0 0 5px rgba(225, 6, 0, 0.4);">Lap --</div>
+        <div id="sim-time-display" class="time-display" style="min-width: unset;">00:00.000</div>
+      </div>
     </div>
 
     <div class="telemetry-dashboard">
@@ -899,8 +903,17 @@ async function fetchTelemetryForDrivers() {
         text.setAttribute('dy', '2.8');
         text.textContent = d;
         
+        const wrench = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        wrench.id = `dr-wrench-${d}`;
+        wrench.setAttribute('font-size', '10');
+        wrench.setAttribute('text-anchor', 'middle');
+        wrench.setAttribute('y', '-10');
+        wrench.textContent = '🔧';
+        wrench.style.display = 'none';
+        
         g.appendChild(circle);
         g.appendChild(text);
+        g.appendChild(wrench);
         mapLayer.appendChild(g);
         
         // Add to legend
@@ -930,7 +943,20 @@ async function fetchTelemetryForDrivers() {
       }
     });
     
+    // Adjust minSimTime to skip pre-race wait
+    let firstLapStart = Infinity;
+    selectedDrivers.forEach(d => {
+      if (raceSimData.laps[d] && raceSimData.laps[d].length > 0) {
+        const t = raceSimData.laps[d][0].start_time;
+        if (t < firstLapStart) firstLapStart = t;
+      }
+    });
+    
     if (minSimTime === Infinity) minSimTime = 0;
+    if (firstLapStart !== Infinity && firstLapStart < maxSimTime) {
+      minSimTime = firstLapStart;
+    }
+    totalLaps = maxLaps;
     
     // Populate lap select
     lapSelect.innerHTML = '';
@@ -1041,6 +1067,40 @@ function drawBaseTrackPath() {
   });
   d += ' Z';
   pathEl.setAttribute('d', d);
+  
+  // Draw static pit marker near trackData[0]
+  let pitMarker = document.getElementById('circuit-pit-marker');
+  if (trackData.length > 0) {
+    if (pitMarker) pitMarker.remove();
+    const firstPos = getScreenCoordinates(trackData[0]);
+    const svg = pathEl.closest('svg');
+    pitMarker = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    pitMarker.id = 'circuit-pit-marker';
+    pitMarker.setAttribute('transform', `translate(${(firstPos.x + 22).toFixed(1)}, ${(firstPos.y - 12).toFixed(1)})`);
+    
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute('x', '-25');
+    rect.setAttribute('y', '-8');
+    rect.setAttribute('width', '50');
+    rect.setAttribute('height', '16');
+    rect.setAttribute('rx', '3');
+    rect.setAttribute('fill', 'rgba(0, 0, 0, 0.65)');
+    rect.setAttribute('stroke', 'rgba(230, 126, 34, 0.5)');
+    rect.setAttribute('stroke-width', '1.5');
+    
+    const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    txt.setAttribute('font-size', '8.5');
+    txt.setAttribute('font-family', 'Orbitron');
+    txt.setAttribute('font-weight', '700');
+    txt.setAttribute('fill', '#e67e22');
+    txt.setAttribute('text-anchor', 'middle');
+    txt.setAttribute('dy', '3');
+    txt.textContent = '🔧 PIT';
+    
+    pitMarker.appendChild(rect);
+    pitMarker.appendChild(txt);
+    svg.insertBefore(pitMarker, document.getElementById('dynamic-drivers-layer'));
+  }
 }
 
 function drawMiniSectors() {
@@ -1171,6 +1231,21 @@ function getInterpolatedPosition(driver, simTime) {
   return null;
 }
 
+function isDriverInPits(drv, simTime) {
+  if (!raceSimData || !raceSimData.laps[drv]) return false;
+  const laps = raceSimData.laps[drv];
+  for (let i = 0; i < laps.length; i++) {
+    const lap = laps[i];
+    if (lap.pit_in !== null) {
+      if (simTime >= lap.pit_in) {
+        if (lap.pit_out === null) return true;
+        if (simTime <= lap.pit_out) return true;
+      }
+    }
+  }
+  return false;
+}
+
 function updateSimulationFrame(simTime) {
   if (!raceSimData) return;
   
@@ -1184,6 +1259,35 @@ function updateSimulationFrame(simTime) {
   const timeDisplay = document.getElementById('sim-time-display');
   if (timeDisplay) timeDisplay.textContent = timeStr;
   
+  // 1b. Lap Display
+  let currentLapNum = null;
+  for (let d of selectedDrivers) {
+    if (raceSimData.laps[d]) {
+      const curLap = raceSimData.laps[d].find(l => simTime >= l.start_time && simTime <= l.time);
+      if (curLap) {
+        currentLapNum = curLap.lap_num;
+        break;
+      }
+    }
+  }
+  
+  const lapDisplay = document.getElementById('sim-lap-display');
+  if (lapDisplay) {
+    if (currentLapNum) {
+      if (totalLaps > 0) {
+        lapDisplay.textContent = `Lap ${currentLapNum} / ${totalLaps}`;
+      } else {
+        lapDisplay.textContent = `Lap ${currentLapNum}`;
+      }
+    } else {
+      if (totalLaps > 0 && simTime >= maxSimTime) {
+        lapDisplay.textContent = `Lap ${totalLaps} / ${totalLaps}`;
+      } else {
+        lapDisplay.textContent = 'Lap --';
+      }
+    }
+  }
+  
   // 2. Map Update
   selectedDrivers.forEach(d => {
     const p = getInterpolatedPosition(d, simTime);
@@ -1191,6 +1295,16 @@ function updateSimulationFrame(simTime) {
       const screenPos = getScreenCoordinates(p);
       const g = document.getElementById(`dr-group-${d}`);
       if (g) g.setAttribute('transform', `translate(${screenPos.x.toFixed(1)}, ${screenPos.y.toFixed(1)})`);
+    }
+    
+    // Toggle pit wrench
+    const wrench = document.getElementById(`dr-wrench-${d}`);
+    if (wrench) {
+      if (isDriverInPits(d, simTime)) {
+        wrench.style.display = 'block';
+      } else {
+        wrench.style.display = 'none';
+      }
     }
   });
   
@@ -1256,22 +1370,31 @@ function updateSimulationFrame(simTime) {
     
     // Is lap finished in this simulation time?
     const isFinished = simTime > currentLap.time;
+    const inPit = isDriverInPits(drv, simTime);
     
     if (lapCell) {
-      if (isFinished) lapCell.textContent = currentLap.lap_time;
-      else lapCell.textContent = `[L${currentLap.lap_num}] ${formatStopwatch(simTime - currentLap.start_time)}`;
+      if (inPit) {
+        lapCell.innerHTML = `<span style="color: #e67e22; font-weight: 700; border: 1px solid rgba(230, 126, 34, 0.4); background: rgba(230, 126, 34, 0.1); padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.75rem;">🔧 PIT</span>`;
+      } else if (isFinished) {
+        lapCell.textContent = currentLap.lap_time;
+      } else {
+        lapCell.textContent = `[L${currentLap.lap_num}] ${formatStopwatch(simTime - currentLap.start_time)}`;
+      }
     }
     
     if (s1Cell) {
-      if (simTime > currentLap.start_time + currentLap.s1_sec && currentLap.s1_sec > 0) s1Cell.textContent = currentLap.s1;
+      if (inPit) s1Cell.textContent = '--';
+      else if (simTime > currentLap.start_time + currentLap.s1_sec && currentLap.s1_sec > 0) s1Cell.textContent = currentLap.s1;
       else s1Cell.textContent = '--';
     }
     if (s2Cell) {
-      if (simTime > currentLap.start_time + currentLap.s1_sec + currentLap.s2_sec && currentLap.s2_sec > 0) s2Cell.textContent = currentLap.s2;
+      if (inPit) s2Cell.textContent = '--';
+      else if (simTime > currentLap.start_time + currentLap.s1_sec + currentLap.s2_sec && currentLap.s2_sec > 0) s2Cell.textContent = currentLap.s2;
       else s2Cell.textContent = '--';
     }
     if (s3Cell) {
-      if (isFinished && currentLap.s3_sec > 0) s3Cell.textContent = currentLap.s3;
+      if (inPit) s3Cell.textContent = '--';
+      else if (isFinished && currentLap.s3_sec > 0) s3Cell.textContent = currentLap.s3;
       else s3Cell.textContent = '--';
     }
     if (tyreCell && currentLap.compound && currentLap.compound !== 'N/A') {

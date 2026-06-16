@@ -94,7 +94,7 @@ const PAGE_TEAM_LOGOS = {
   'haas': 'https://i.namu.wiki/i/8K3G-XzYQ2LXUkQS5hBNU1IaGPz37tRxBhko59pbjcBqYgrfqahSxQ-xHQIAgjMJU2oIYZzR9nD0-WwQDTaF9igG1tJd53nofgtcpeo2cbaggnFMB4x5DW9nAK92BzT3admU9rdvUOnyjs8cYJtv3w.svg',
   'audi': 'https://i.namu.wiki/i/TkZMYLbELrsVvc5mphwSusaOxBf3A4D0paJc_hyPQZDcf31_UgxSE4lEK2Hf9SDIXKxtf2nqYpOpw4FrT_UkUa-Ws7ypcHICo6pDjIIyRs4y-JZsslKh8QUmYQGUjoobJU4s3rVxlJKgTSQrhz1f6g.webp',
   'alpine': 'https://i.namu.wiki/i/xAew5yszbtQ321huNdM4nFzpvW18RZAFGBFUMplWdYAgfgqKDeC1K38JhU4fGoTCiR-qoWrcu8twqAFcJRdXwOpdrdJeOwEgXhF7LVCxbZa9ILycOG2WUOXPY0hj7ldAYKh3XGiNYNoL4eqLbhNAbQ.svg',
-  'cadillac': 'https://i.namu.wiki/i/mqCPXhpLLvWpytc8kamGv1O2eqvGebs8vZBdzh2iCRFM04OOJzM3jkws0LLOSxlL6Rkrb46H_SQGsC_BtikASQ.svg'
+  'cadillac': 'https://i.namu.wiki/i/37e05wDXlpbcAvWJl1kuqs60MY6P6nS8I5kTSM0H-99GDB6tPvKVxpd47pjLr7_2LiFPIIThILz6xmv0xSs8Tw.svg'
 };
 
 // Render teams
@@ -306,8 +306,8 @@ function showTeamModal(teamId) {
     <h3 class="detail-section-title"><span class="badge-indicator"></span> 소속 드라이버 라인업</h3>
     <div class="timeline-grid">
         ${team.drivers.map(driverId => {
-          const driver = drivers.find(d => d.id === driverId);
-          return driver ? `
+    const driver = drivers.find(d => d.id === driverId);
+    return driver ? `
             <div class="timeline-item" style="display: flex; align-items: center; gap: 0.75rem;">
               <div style="width: 44px; height: 44px; border-radius: 50%; overflow: hidden; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;">
                 <img src="${driver.image}" alt="${driver.name}" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" />
@@ -321,7 +321,7 @@ function showTeamModal(teamId) {
               </div>
             </div>
           ` : '';
-        }).join('')}
+  }).join('')}
     </div>
 
     <!-- 바이오 -->

@@ -155,6 +155,8 @@ function getCategoryColor(category) {
   const colors = {
     'street': '#e10600',
     'permanent': '#3498db',
+    '시가지': '#e10600',
+    '상설': '#3498db',
     'hybrid': '#9b59b6',
     'penalty': '#e10600',
     'incident': '#ff8700',

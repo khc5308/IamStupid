@@ -268,3 +268,7 @@
 .card:hover .driver-card-img {
   transform: scale(1.05);
 }
+
+.card:hover .track-card-img {
+  transform: scale(1.05);
+}
