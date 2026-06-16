@@ -207,13 +207,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Mercedes-AMG M17 E Performance",
-      "description": "실버 애로우의 공기역학 결정체. 2026년 새로운 규정에 맞춰 하이브리드 파워 성능을 극대화한 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "탄소 섬유 벌집 구조 복합체 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "탄소 섬유 메인케이스 전진 8단 반자동" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 디스크 및 주조 알루미늄 캘리퍼" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 18인치 레이싱 컴파운드" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "탄소 섬유 벌집 구조 복합체 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "탄소 섬유 메인케이스 전진 8단 반자동"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 카본 디스크 및 주조 알루미늄 캘리퍼"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 18인치 레이싱 컴파운드"
+        }
       ]
     },
     {
@@ -223,13 +237,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
-      "description": "스쿠데리아 페라리의 2026년 타이틀 탈환을 위한 무기. 마라넬로의 혁신적인 다운포스 설계가 특징.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "탄소 섬유 및 케블라 합성 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "페라리 자체제작 종동 8단 시퀀셜" },
-        { "label": "서스펜션 (Suspension)", "value": "풀로드 전/후륜 액티브 지오메트리 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "AP Racing 카본 세라믹 하이테크 디스크" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli F1 스펙 건조/우천용 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "탄소 섬유 및 케블라 합성 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "페라리 자체제작 종동 8단 시퀀셜"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "풀로드 전/후륜 액티브 지오메트리 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "AP Racing 카본 세라믹 하이테크 디스크"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli F1 스펙 건조/우천용 타이어"
+        }
       ]
     },
     {
@@ -239,13 +267,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Mercedes-AMG M17 E Performance",
-      "description": "파파야 오렌지의 질주. 극단적인 슬림 사이드포드 설계로 공기 흐름을 최적화한 고속 코너링 스페셜리스트.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "맥라렌 카본 아라미드 복합 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "8단 퀵시프트 유압 제어 변속기" },
-        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 푸시로드 후륜 더블 위시본" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 벤틸레이티드 로터" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 오존/레이스 전용 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "맥라렌 카본 아라미드 복합 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "8단 퀵시프트 유압 제어 변속기"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "풀로드 전륜 / 푸시로드 후륜 더블 위시본"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 카본 벤틸레이티드 로터"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 오존/레이스 전용 타이어"
+        }
       ]
     },
     {
@@ -255,13 +297,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Red Bull Ford 2026 Power Unit",
-      "description": "포드와의 협업으로 탄생한 차세대 머신. 최고의 다운포스 효율성과 직선주로 가속 성능을 보장하는 에어로 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "레드불 레이싱 모놀리식 탄소 섬유 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "유압식 다이렉트 드라이브 8단 반자동" },
-        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 풀로드 후륜 지능형 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 탄소 섬유 브레이크 어셈블리" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 드라이/웨트 18인치 포뮬러 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "레드불 레이싱 모놀리식 탄소 섬유 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "유압식 다이렉트 드라이브 8단 반자동"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "풀로드 전륜 / 풀로드 후륜 지능형 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 탄소 섬유 브레이크 어셈블리"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 드라이/웨트 18인치 포뮬러 타이어"
+        }
       ]
     },
     {
@@ -271,13 +327,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Honda H260 V6 Turbo Hybrid",
-      "description": "혼다의 최신 워크스 엔진과 아드리안 뉴이의 에어로다이나믹스 감각이 융합된 영국 하이퍼 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "애스턴마틴 첨단 탄소 섬유 허니콤 구조" },
-        { "label": "변속기 (Gearbox)", "value": "혼다 팩토리 유압 유닛 연동 8단 시퀀셜" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "AP Racing 탄소 섬유 복합 디스크" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli P-Zero 하이 퍼포먼스 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "애스턴마틴 첨단 탄소 섬유 허니콤 구조"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "혼다 팩토리 유압 유닛 연동 8단 시퀀셜"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "AP Racing 탄소 섬유 복합 디스크"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli P-Zero 하이 퍼포먼스 타이어"
+        }
       ]
     },
     {
@@ -287,13 +357,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Mercedes-AMG M17 E Performance",
-      "description": "메르세데스 파워로 전환한 알핀의 첫 머신. 뛰어난 직진 가속 및 경량화 바디 설계가 돋보입니다.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "알핀 탄소 섬유 경량 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "종동식 8단 시퀀셜 카본 케이싱" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 독립 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 하이 리스폰스 카본 디스크" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 18인치 레이싱 슬릭 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "알핀 탄소 섬유 경량 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "종동식 8단 시퀀셜 카본 케이싱"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 독립 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 하이 리스폰스 카본 디스크"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 18인치 레이싱 슬릭 타이어"
+        }
       ]
     },
     {
@@ -303,13 +387,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Red Bull Ford 2026 Power Unit",
-      "description": "젊은 드라이버들의 야망을 뒷받침하는 머신. 컴팩트하고 민첩한 차체 제어 성능이 일품입니다.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "VCARB 고강도 탄소 합성 허니콤 구조" },
-        { "label": "변속기 (Gearbox)", "value": "레드불 테크놀로지 8단 유압 변속기" },
-        { "label": "서스펜션 (Suspension)", "value": "풀로드 전륜 / 풀로드 후륜 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 브레이크 캘리퍼" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli F1 스탠다드 컴파운드 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "VCARB 고강도 탄소 합성 허니콤 구조"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "레드불 테크놀로지 8단 유압 변속기"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "풀로드 전륜 / 풀로드 후륜 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 카본 브레이크 캘리퍼"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli F1 스탠다드 컴파운드 타이어"
+        }
       ]
     },
     {
@@ -319,13 +417,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
-      "description": "실용주의 미국의 도전. 페라리와의 견고한 파트너십을 바탕으로 다운포스 밸런스를 향상시킨 가성비 최고의 하이퍼 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "달라라(Dallara) 설계 탄소 섬유 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "페라리 제공 8단 유압식 시퀀셜" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 카본 로터 및 고온 캘리퍼" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 건조 및 습윤 노면용 F1 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "달라라(Dallara) 설계 탄소 섬유 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "페라리 제공 8단 유압식 시퀀셜"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 카본 로터 및 고온 캘리퍼"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 건조 및 습윤 노면용 F1 타이어"
+        }
       ]
     },
     {
@@ -335,13 +447,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Mercedes-AMG M17 E Performance",
-      "description": "명가 부활을 알리는 푸른 머신. 탁월한 냉각 시스템 설계로 더운 레이스 트랙에서도 최고의 내구성을 발휘합니다.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "윌리엄스 첨단 컴포지트 레이아웃 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "메르세데스 변속기 모듈 기반 8단 기어박스" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 모노 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "AP Racing 익스트림 스펙 카본 디스크" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 포뮬러 원 전용 컴파운드 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "윌리엄스 첨단 컴포지트 레이아웃 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "메르세데스 변속기 모듈 기반 8단 기어박스"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 모노 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "AP Racing 익스트림 스펙 카본 디스크"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 포뮬러 원 전용 컴파운드 타이어"
+        }
       ]
     },
     {
@@ -351,13 +477,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Audi F1 Power Unit",
-      "description": "F1에 새롭게 합류한 아우디 팩토리 팀의 야심작. 독일 하이테크 하이브리드 기술의 에센스가 가득 담긴 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "아우디 스포츠 자체 설계 초경량 탄소 허니콤" },
-        { "label": "변속기 (Gearbox)", "value": "아우디 팩토리 자체 개발 8단 더블 클러치형" },
-        { "label": "서스펜션 (Suspension)", "value": "풀로드 전/후륜 액티브 컴포트 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "AP Racing 스포츠 스펙 카본 세라믹 브레이크" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 프리미엄 레이싱 스펙 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "아우디 스포츠 자체 설계 초경량 탄소 허니콤"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "아우디 팩토리 자체 개발 8단 더블 클러치형"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "풀로드 전/후륜 액티브 컴포트 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "AP Racing 스포츠 스펙 카본 세라믹 브레이크"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 프리미엄 레이싱 스펙 타이어"
+        }
       ]
     },
     {
@@ -367,13 +507,27 @@
       "year": 2026,
       "weight": 798,
       "powerUnit": "Ferrari 070 V6 Turbo Hybrid",
-      "description": "2026 그리드에 새로 참가한 미국의 하이포먼스 머신. 안정적인 코너 탈출과 직선주로 가속 밸런스에 집중한 머신.",
       "specs": [
-        { "label": "섀시 (Chassis)", "value": "캐딜락 어드밴스드 합성 탄소 벌집 모노코크" },
-        { "label": "변속기 (Gearbox)", "value": "자체 설계 유압식 시프트 8단 변속 유닛" },
-        { "label": "서스펜션 (Suspension)", "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션" },
-        { "label": "브레이크 (Brakes)", "value": "Brembo 포뮬러 전용 카본 복합 제동 시스템" },
-        { "label": "타이어 (Tyres)", "value": "Pirelli 건조 노면 및 웻 레이스용 타이어" }
+        {
+          "label": "섀시 (Chassis)",
+          "value": "캐딜락 어드밴스드 합성 탄소 벌집 모노코크"
+        },
+        {
+          "label": "변속기 (Gearbox)",
+          "value": "자체 설계 유압식 시프트 8단 변속 유닛"
+        },
+        {
+          "label": "서스펜션 (Suspension)",
+          "value": "푸시로드 전륜 / 풀로드 후륜 서스펜션"
+        },
+        {
+          "label": "브레이크 (Brakes)",
+          "value": "Brembo 포뮬러 전용 카본 복합 제동 시스템"
+        },
+        {
+          "label": "타이어 (Tyres)",
+          "value": "Pirelli 건조 노면 및 웻 레이스용 타이어"
+        }
       ]
     }
   ],
@@ -393,7 +547,6 @@
       "lapRecordYear": 2022,
       "firstGrandPrix": "1996",
       "raceDistance": "306.124",
-      "description": "호주 GP의 무대이자 역사 깊은 준가설 시가지 서킷. 2022년 대대적인 레이아웃 수정으로 추월이 더욱 용이해졌습니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmelbournedetailed.webp"
     },
@@ -412,7 +565,6 @@
       "lapRecordYear": 2004,
       "firstGrandPrix": "2004",
       "raceDistance": "305.066",
-      "description": "한자 '하(上)' 자를 본뜬 독특한 설계와 초장거리 직선 주로가 특징인 동양의 대표적인 퍼머넌트 서킷.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackshanghaidetailed.webp"
     },
@@ -431,7 +583,6 @@
       "lapRecordYear": 2019,
       "firstGrandPrix": "1987",
       "raceDistance": "307.471",
-      "description": "드라이버들이 극찬하는 세계 유일의 입체 교차 8자형 레이아웃 서킷. 테크니컬한 S자 코너와 고속 데그너 코너가 백미입니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksuzukadetailed.webp"
     },
@@ -450,7 +601,6 @@
       "lapRecordYear": 2023,
       "firstGrandPrix": "2022",
       "raceDistance": "308.326",
-      "description": "하드록 스타디움 주변을 도는 가설 시가지 서킷. 화려한 분위기와 길고 시원한 직선 주로가 결합된 형태입니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmiamidetailed.webp"
     },
@@ -469,7 +619,6 @@
       "lapRecordYear": 2019,
       "firstGrandPrix": "1978",
       "raceDistance": "305.270",
-      "description": "노트르담 섬에 위치한 서킷. 마지막 시케인의 악명 높은 '챔피언들의 벽(Wall of Champions)'이 대표적입니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmontrealdetailed.webp"
     },
@@ -488,7 +637,6 @@
       "lapRecordYear": 2021,
       "firstGrandPrix": "1950",
       "raceDistance": "260.286",
-      "description": "F1 역사상 가장 상징적이고 화려하며 좁은 시가지 서킷. 추월이 극도로 어려워 퀄리파잉이 무엇보다 중요한 트랙입니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmontecarlodetailed.webp"
     },
@@ -507,7 +655,6 @@
       "lapRecordYear": 2023,
       "firstGrandPrix": "1991",
       "raceDistance": "307.236",
-      "description": "대표적인 테스트 서킷으로 고속, 중속, 저속 코너가 균형 있게 배치되어 머신의 종합 성능을 테스트하기에 가장 이상적인 서킷.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackcatalunyadetailed.webp"
     },
@@ -526,7 +673,6 @@
       "lapRecordYear": 2020,
       "firstGrandPrix": "1970",
       "raceDistance": "306.452",
-      "description": "알프스 산맥 기슭에 위치한 자연 친화적 서킷. 코너 수는 적지만 극심한 경사 변화와 거친 연석이 큰 도전과제를 제공합니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackspielbergdetailed.webp"
     },
@@ -545,7 +691,6 @@
       "lapRecordYear": 2020,
       "firstGrandPrix": "1950",
       "raceDistance": "306.198",
-      "description": "1950년 최초의 F1 그랑프리가 열린 역사와 전통의 레이싱 메카. 고속 코너인 Copse, Becketts, Chapel은 F1의 정수입니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksilverstonedetailed.webp"
     },
@@ -564,7 +709,6 @@
       "lapRecordYear": 2018,
       "firstGrandPrix": "1950",
       "raceDistance": "308.052",
-      "description": "세계에서 가장 아름답고 도전적인 서킷 중 하나로, 전설적인 오 루주(Eau Rouge) 코너와 변덕스러운 날씨가 매력적인 벨기에의 상설 서킷.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackspafrancorchampsdetailed.webp"
     },
@@ -583,7 +727,6 @@
       "lapRecordYear": 2020,
       "firstGrandPrix": "1986",
       "raceDistance": "306.630",
-      "description": "'지붕 없는 고카트장'으로 불릴 만큼 구불구불하고 좁은 테크니컬 서킷. 더운 날씨와 모래 먼지가 레이스의 큰 변수가 됩니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackhungaroringdetailed.webp"
     },
@@ -602,7 +745,6 @@
       "lapRecordYear": 2021,
       "firstGrandPrix": "1952",
       "raceDistance": "306.587",
-      "description": "북해 연안의 모래 언덕 사이에 위치한 서킷. F1에서 보기 드문 독특한 급경사 뱅크드 코너(T3, T14)가 특징입니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackzandvoortdetailed.webp"
     },
@@ -621,7 +763,6 @@
       "lapRecordYear": 2004,
       "firstGrandPrix": "1950",
       "raceDistance": "306.720",
-      "description": "'속도의 신전'이라 불리는 극단적인 초고속 서킷. 다운포스를 최소화한 셋업으로 시속 350km가 넘는 배틀이 펼쳐집니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmonzadetailed.webp"
     },
@@ -640,7 +781,6 @@
       "lapRecordYear": 2026,
       "firstGrandPrix": "2026",
       "raceDistance": "312.018",
-      "description": "2026년에 첫선을 보이는 새로운 시가지 서킷. IFEMA 전시 컨벤션 센터 인근의 도로를 활용하며, 다채로운 터널 구간과 뱅크 코너를 포함합니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmadringdetailed.webp"
     },
@@ -659,7 +799,6 @@
       "lapRecordYear": 2019,
       "firstGrandPrix": "2016",
       "raceDistance": "306.049",
-      "description": "카스피해 연안의 고대 성곽을 통과하는 극도로 좁은 성벽 코너와 시속 340km 이상을 달리는 2.2km 직선 주로가 공존하는 트랙.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbakudetailed.webp"
     },
@@ -678,7 +817,6 @@
       "lapRecordYear": 2023,
       "firstGrandPrix": "2008",
       "raceDistance": "306.143",
-      "description": "고온다습한 기후 속에서 야간에 열리는 혹독한 레이스. 끊임없는 코너 전환과 울퉁불퉁한 노면으로 인해 드라이버의 체력 소모가 극에 달합니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksingaporedetailed.webp"
     },
@@ -697,7 +835,6 @@
       "lapRecordYear": 2019,
       "firstGrandPrix": "2012",
       "raceDistance": "308.405",
-      "description": "가파른 오르막 T1 코너와 실버스톤의 Becketts, 스즈카의 S자 코너 등 세계 유명 서킷의 강점들을 모티브로 제작된 다이내믹 서킷.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackaustindetailed.webp"
     },
@@ -716,7 +853,6 @@
       "lapRecordYear": 2021,
       "firstGrandPrix": "1963",
       "raceDistance": "305.354",
-      "description": "해발 2,200m가 넘는 고지대에 위치한 서킷. 옅은 대기로 인해 공기저항과 다운포스가 모두 감소하며, 과거 야구장 부지였던 Foro Sol 관람석 구간이 웅장한 진풍경을 낳습니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmexicocitydetailed.webp"
     },
@@ -735,7 +871,6 @@
       "lapRecordYear": 2018,
       "firstGrandPrix": "1973",
       "raceDistance": "305.879",
-      "description": "반시계 방향으로 주행하는 유서 깊은 서킷. 해발 약 800m 고지에 위치해 급격한 날씨 변화가 잦으며 추월이 자주 발생하는 트랙 중 하나.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackinterlagosdetailed.webp"
     },
@@ -754,7 +889,6 @@
       "lapRecordYear": 2023,
       "firstGrandPrix": "2023",
       "raceDistance": "309.958",
-      "description": "라스베이거스의 상징적인 카지노와 호텔 거리를 직접 가로지르는 서킷. 1.9km에 달하는 메인 스트레이트와 서늘한 사막의 밤 기온이 독특한 변수가 됩니다.",
       "type": "시가지",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracklasvegasdetailed.webp"
     },
@@ -773,7 +907,6 @@
       "lapRecordYear": 2023,
       "firstGrandPrix": "2021",
       "raceDistance": "308.617",
-      "description": "카타르 사막 한가운데 위치하여 강력한 조명 아래 진행되는 야간 레이스. 미끄러운 모래와 쉬지 않고 이어지는 고속 코너가 인상적입니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracklusaildetailed.webp"
     },
@@ -792,7 +925,6 @@
       "lapRecordYear": 2021,
       "firstGrandPrix": "2009",
       "raceDistance": "306.183",
-      "description": "황혼에 시작해 밤에 끝나는 트와일라잇 레이스의 무대. 럭셔리한 마리나 항구와 호텔을 통과하며 시즌 챔피언이 결정되는 마지막 관문입니다.",
       "type": "상설",
       "image": "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackyasmarinacircuitdetailed.webp"
     }

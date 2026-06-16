@@ -496,12 +496,9 @@ async function showDriverModal(driverId) {
  */
 async function updateDriverLayout() {
     try {
-        const [flagsRes, activeRes] = await Promise.all([
-            fetch('/data/nationality_flags.json'),
-            fetch('/data/active_2026_drivers.json')
-        ]);
-        NATIONALITY_FLAGS = await flagsRes.json();
+        const activeRes = await fetch('/data/active_2026_drivers.json');
         ACTIVE_2026_DRIVERS = await activeRes.json();
+        NATIONALITY_FLAGS = {};
         DRIVER_IMAGES = {};
 
         const eventRes = await fetch('/events/last');

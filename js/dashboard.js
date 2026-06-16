@@ -131,24 +131,16 @@ async function loadDashboardData() {
       raceEvents = [];
     }
 
-    // 3. Fetch flags and integrated active drivers safely
+    // 3. Fetch integrated active drivers safely
     let nationalityFlags = { ...NATIONALITY_FLAGS };
     let activeDriversData = {};
     let standingsData = {};
 
     try {
-      const [flagsRes, activeDriversRes, standingsRes] = await Promise.all([
-        fetch('/data/nationality_flags.json').catch(() => ({ ok: false })),
+      const [activeDriversRes, standingsRes] = await Promise.all([
         fetch('/data/active_2026_drivers.json').catch(() => ({ ok: false })),
         fetch('/standings/2026').catch(() => ({ ok: false }))
       ]);
-
-      if (flagsRes && flagsRes.ok) {
-        try {
-          const flagsData = await flagsRes.json();
-          nationalityFlags = { ...nationalityFlags, ...flagsData };
-        } catch (e) {}
-      }
 
       if (activeDriversRes && activeDriversRes.ok) {
         try {
@@ -271,15 +263,6 @@ async function renderRecentEvents() {
   if (!container) return;
 
   let nationalityFlags = { ...NATIONALITY_FLAGS };
-  try {
-    const flagsRes = await fetch('/data/nationality_flags.json');
-    if (flagsRes.ok) {
-      const flagsData = await flagsRes.json();
-      nationalityFlags = { ...nationalityFlags, ...flagsData };
-    }
-  } catch (e) {
-    console.error('Failed to load flags for dashboard events, using fallback', e);
-  }
 
   if (raceEvents.length === 0) {
     container.innerHTML = `

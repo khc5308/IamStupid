@@ -44,23 +44,9 @@ let trackScale = 1.0;
 let trackPaddingX = 0, trackPaddingY = 0;
 
 document.addEventListener('DOMContentLoaded', async function() {
-  await loadFlags();
   initSelectors();
   await loadInitialDashboard();
 });
-
-// Load nationality flags mapping
-async function loadFlags() {
-  try {
-    const res = await fetch('/data/nationality_flags.json');
-    if (res.ok) {
-      const data = await res.json();
-      nationalityFlags = { ...NATIONALITY_FLAGS, ...data };
-    }
-  } catch (e) {
-    console.error('Failed to load nationality flags, using local fallback', e);
-  }
-}
 
 function initSelectors() {
   const yearSelector = document.getElementById('year-selector');

@@ -60,7 +60,7 @@ function renderTracks() {
           </div>
         </div>
       </div>
-      <p style="font-size: 0.875rem; margin: 0; color: #b0b0c0; line-height: 1.4;">${track.description}</p>
+      ${track.description ? `<p style="font-size: 0.875rem; margin: 0; color: #b0b0c0; line-height: 1.4;">${track.description}</p>` : ''}
     </div>
   `).join('');
 }
@@ -123,11 +123,6 @@ function showTrackModal(trackId) {
           ${hasLapRecord ? `${track.lapRecord} <span style="font-size: 0.875rem; font-weight: normal; color: var(--text-secondary); margin-left: 0.5rem;">(${track.lapRecordHolder}, ${track.lapRecordYear})</span>` : 'N/A'}
         </div>
       </div>
-    </div>
-
-    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-      <h3 style="font-size: 1rem; margin: 0 0 0.5rem 0;">정보</h3>
-      <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">${track.description}</p>
     </div>
   `;
 

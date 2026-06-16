@@ -11,11 +11,7 @@ let drivers = [];
 // Load drivers to display in modal
 async function loadDrivers() {
   try {
-    const [flagsRes, activeRes] = await Promise.all([
-      fetch('/data/nationality_flags.json'),
-      fetch('/data/active_2026_drivers.json')
-    ]);
-    const nationalityFlags = await flagsRes.json();
+    const activeRes = await fetch('/data/active_2026_drivers.json');
     const activeDrivers = await activeRes.json();
 
     drivers = [];

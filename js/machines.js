@@ -69,17 +69,10 @@ let drivers = [];
 // Load drivers to display in machine modal
 async function loadDrivers() {
   try {
-    let nationalityFlags = { ...NATIONALITY_FLAGS };
     let activeDrivers = {};
 
-    const [flagsRes, activeRes] = await Promise.all([
-      fetch('/data/nationality_flags.json').catch(() => ({ ok: false })),
-      fetch('/data/active_2026_drivers.json').catch(() => ({ ok: false }))
-    ]);
+    const activeRes = await fetch('/data/active_2026_drivers.json').catch(() => ({ ok: false }));
 
-    if (flagsRes && flagsRes.ok) {
-      try { const d = await flagsRes.json(); nationalityFlags = { ...nationalityFlags, ...d }; } catch (e) {}
-    }
     if (activeRes && activeRes.ok) {
       try { activeDrivers = await activeRes.json(); } catch (e) {}
     }
@@ -178,7 +171,7 @@ function renderMachines() {
             </div>
           </div>
         </div>
-        <p style="font-size: 0.8rem; margin: 0; color: #8e8e9e; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 0.75rem; margin-top: auto;">${machine.description}</p>
+        ${machine.description ? `<p style="font-size: 0.8rem; margin: 0; color: #8e8e9e; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 0.75rem; margin-top: auto;">${machine.description}</p>` : ''}
       </div>
     `;
   }).join('');
@@ -368,10 +361,12 @@ function showMachineModal(machineId) {
     </div>
 
     <!-- 바이오 -->
+    ${machine.description ? `
     <div class="bio-box">
         <div style="font-family: 'Exo 2', sans-serif; font-weight:700; font-size:0.75rem; color:#fff; text-transform:uppercase; margin-bottom:0.5rem; letter-spacing:0.05em;">차량 정보 및 특징</div>
         <div>${machine.description}</div>
     </div>
+    ` : ''}
   `;
 
   document.getElementById('modal-machine-content').innerHTML = content;
