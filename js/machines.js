@@ -315,7 +315,7 @@ function showMachineModal(machineId) {
     </div>
 
     <!-- 핵심 차량 규격 히어로 -->
-    <h3 class="detail-section-title"><span class="badge-indicator"></span> 머신 제원 요약</h3>
+    <h3 class="detail-section-title"><span class="badge-indicator"></span> 레이스 카 제원 요약</h3>
     <div class="premium-grid">
         <div class="premium-stat-card">
             <div class="premium-stat-label">파워 유닛</div>

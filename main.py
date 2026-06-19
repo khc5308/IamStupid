@@ -501,7 +501,7 @@ def get_race_results(year: int, event: str, session_type: str):
         raise HTTPException(status_code=404, detail=f"결과 에러: {str(e)}")
 
 @app.get("/fastest-lap-telemetry/{year}/{event}/{session_type}")
-def get_fastest_lap_telemetry(year: int, event: str, session_type: str, drivers: str = None):
+def get_fastest_lap_telemetry(year: int, event: str, session_type: str, drivers: str = None, lap: str = "fastest"):
     try:
         event_id = int(event) if event.isdigit() else event
         try:
@@ -515,6 +515,10 @@ def get_fastest_lap_telemetry(year: int, event: str, session_type: str, drivers:
             
         drvs = [d.strip().upper() for d in drivers.split(',')]
         data = {}
+        
+        lap_num = None
+        if lap and lap != "fastest" and lap.isdigit():
+            lap_num = int(lap)
         
         for d in drvs:
             try:
@@ -530,10 +534,17 @@ def get_fastest_lap_telemetry(year: int, event: str, session_type: str, drivers:
                         except: pass
                 if drv_laps.empty: continue
                 
-                fastest = drv_laps.pick_fastest()
-                if fastest.empty or pd.isna(fastest['Time']): continue
+                if lap_num is not None:
+                    target_laps = drv_laps[drv_laps['LapNumber'] == lap_num]
+                    if target_laps.empty:
+                        continue
+                    lap_obj = target_laps.iloc[0]
+                else:
+                    lap_obj = drv_laps.pick_fastest()
                 
-                tel = fastest.get_telemetry()
+                if lap_obj.empty or pd.isna(lap_obj['Time']): continue
+                
+                tel = lap_obj.get_telemetry()
                 if tel.empty: continue
                 
                 # downsample to ~5Hz to save payload

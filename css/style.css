@@ -192,6 +192,18 @@ nav.scrolled {
   }
 }
 
+@media (min-width: 1024px) {
+  .nav-content {
+    position: relative;
+  }
+  
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .nav-cta {
   display: none;
   align-items: center;
